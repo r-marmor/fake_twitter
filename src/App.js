@@ -1,23 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import CenterFeed from "./components/CenterFeed";
+import Menu from "./components/Menu";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto min-h-screen flex gap-5 bg-gray-500">
+      <Menu />
+      <CenterFeed />
+      <Sidebar />
     </div>
   );
 }
