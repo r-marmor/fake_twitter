@@ -1,7 +1,9 @@
+import SearchBar from "./SearchBar";
+
 export default function Sidebar() {
     return (
-        <div className="w-1/6 border">
-            Sidebar
+        <div className="hidden lg:block w-1/6">
+            <SearchBar />
         </div>
     )
 }

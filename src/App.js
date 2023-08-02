@@ -1,14 +1,16 @@
 import CenterFeed from "./components/CenterFeed";
 import Menu from "./components/Menu";
 import Sidebar from "./components/Sidebar";
+import UnloggedPage from "./components/UnloggedPage";
 
 function App() {
   return (
-    <div className="container mx-auto min-h-screen flex gap-5 bg-gray-500">
-      <Menu />
-      <CenterFeed />
-      <Sidebar />
-    </div>
+    <UnloggedPage />
+    // <div className="container mx-auto min-h-screen flex">
+    //   <Menu />
+    //   <CenterFeed />
+    //   <Sidebar />
+    // </div>
   );
 }
 
