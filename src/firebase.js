@@ -1,4 +1,12 @@
 import { initializeApp } from "firebase/app"
+import { 
+    getAuth, 
+    onAuthStateChanged, 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword, 
+    signOut 
+} from "firebase/auth"
+import { getFirestore } from "firebase/firestore"
  
 export const app = initializeApp(
     {
@@ -10,3 +18,16 @@ export const app = initializeApp(
         appId: "1:509033177321:web:1205518237db3dbe9e1078"
     }
 )
+
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
+export { 
+    auth, 
+    onAuthStateChanged, 
+    signOut, 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    firestore 
+};
+

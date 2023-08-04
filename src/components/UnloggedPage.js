@@ -1,9 +1,16 @@
+import { useState } from "react"
+import CreateAccountForm from "./forms/CreateAccountForm";
+import LoginForm from "./forms/LoginForm";
+
 export default function UnloggedPage() {
+    const [showCreateAccountForm, setShowCreateAccountForm] = useState(false);
+    const [showLoginForm, setShowLoginForm] = useState(false);
+
     return (
         <>
-            <div className="hidden md:flex justify-center items-center w-screen h-screen bg-black text-white font-bold ">
-                <div className="w-2/4 lg:w-1/3 h-full flex flex-col gap-2 pt-20">
-                    <svg className="mb-10" fill="#ffffff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
+            <div className={`md:flex justify-center items-center w-screen min-h-screen bg-black text-white font-bold ${showCreateAccountForm || showLoginForm ? 'hidden' : 'flex'}`}>
+                <div className="w-full px-5 sm:w-2/3 md:w-1/3 h-full flex flex-col items-center md:items-start gap-2 pt-20">
+                <svg className="mb-10" fill="#ffffff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
                         width="80px" height="80px" viewBox="0 0 247.632 247.633"
                         >
                         <g>
@@ -75,57 +82,34 @@ export default function UnloggedPage() {
                                 c-3.121,0.242-6.165-0.13-8.175-1.892c-0.721-0.627-1.768-0.715-2.601-0.236c-0.815,0.49-1.229,1.454-1.017,2.399
                                 c0.271,1.206,3.439,11.296,33.738,18.956C227.267,170.976,209.695,174.451,198.565,167.831z"/>
                         </g>
-                    </svg>
-                    <p className="text-4xl mb-10">Ne ratez rien de l'actualité mondiale !</p>
+                </svg>
+                    <p className="text-center md:text-start text-6xl mb-10">Ne ratez rien de l'actualité mondiale !</p>
                     <p className="text-2xl mb-5">Rejoignez *APP-NAME* dès maintenant.</p>
-                    <button type="button" className="w-2/3 py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700">S'inscrire avec Google</button>
-                    <button type="button" className="w-2/3 py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700">S'inscrire avec Apple</button>
-                    <div className="flex gap-1 items-center w-2/3">
+                    <button type="button" className="w-full lg:w-1/2  py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700">S'inscrire avec Google</button>
+                    <button type="button" className="w-full lg:w-1/2  py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700">S'inscrire avec Apple</button>
+                    <div className="flex gap-1 justify-center items-center w-1/2">
                         <div className="h-px bg-slate-400 w-1/2"></div>
                         <span>ou</span>
                         <div className="h-px bg-slate-400 w-1/2"></div>
                     </div>
-                    <button type="button" className="w-2/3 py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700">Créer un compte</button>
-                    <p className="text-xs w-2/3 italic text-gray-500 mb-10">En vous inscrivant, vous sauvez un arbre de la noyade et la Politique de confidentialité, notamment l'Utilisation des cookies.</p>
-                    <p className="mb-2">Vous avez déjà un compte ?</p>
-                    <button type="button" className="w-2/3 py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-white bg-transparent rounded-full border border-white hover:border-blue-500 hover:text-blue-500">Se connecter</button>
+                    <button onClick={() => setShowCreateAccountForm(true)} type="button" className="w-full lg:w-1/2 bg-blue-600 py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full hover:bg-blue-800 hover:text-white">Créer un compte</button>
+                    <p className="text-xs w-full text-justify sm:w-2/3 italic text-gray-500 mb-10">En vous inscrivant, vous sauvez un arbre de la noyade et la Politique de confidentialité, notamment l'Utilisation des cookies.</p>
+                    <p className="mb-2 text-center sm:text-start">Vous avez déjà un compte ?</p>
+                    <button onClick={() => setShowLoginForm(true)} type="button" className="w-full lg:w-1/2 py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-white bg-transparent rounded-full border border-white hover:border-blue-500 hover:text-blue-500">Se connecter</button>
                 </div>
             </div>
-            <div id="mark_div" className="hidden absolute md:block z-10 bg-black w-screen h-screen top-0 left-0 opacity-60"></div>
-            <div className="hidden w-screen h-screen md:flex flex-col items-center justify-center px-5 py-10 z-20 md:absolute md:border md:top-0 md:inset-x-1/2 md:mt-48 md:rounded-lg bg-black text-white md:w-96 md:h-96 md:py-4 md:px-14">
-                <h1 className="font-bold text-xl mb-10">Créer un compte</h1>
-                <form className="w-full max-w-sm">
-                    <div className="mb-4">
-                        <input
-                        className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
-                        type="text"
-                        placeholder="Username"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <input
-                        className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
-                        type="text"
-                        placeholder="@tagname"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <input
-                        className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
-                        type="email"
-                        placeholder="Email"
-                        />
-                    </div>
-                    <div className="flex items-center justify-between mt-10">
-                        <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none"
-                        type="submit"
-                        >
-                        Create Account
-                        </button>
-                    </div>
-                </form>
-            </div> 
+            {/* MASK DIV */}
+            <div id="mask_div" className={`hidden absolute z-10 bg-black w-screen h-screen top-0 left-0 opacity-60 ${showCreateAccountForm || showLoginForm ? 'md:block' : 'hidden'}`}></div>
+            {showCreateAccountForm && 
+                <CreateAccountForm 
+                    setShowCreateAccountForm={setShowCreateAccountForm}
+                />}
+            {showLoginForm && 
+                <LoginForm 
+                    setShowLoginForm={setShowLoginForm}
+            />}
+            
         </>
     )
 }
+

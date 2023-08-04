@@ -2,7 +2,7 @@ import ProfileImg1 from "../images/profile1.jpg"
 import TweetMenu from "./TweetMenu";
 import PropertiesBtn from "./buttons/PropertiesBtn";
 
-export default function TweetContainer() {
+export default function TweetContainer({ username, tag, timestamp, text }) {
     return (
         <div className="p-2 border-b">
                 <div className="flex">
@@ -12,15 +12,15 @@ export default function TweetContainer() {
                     <div className="flex flex-col gap-1 px-4 w-full">
                         <div className="flex justify-between">
                             <div className="flex gap-2 pt-2">
-                                <p className="font-bold">UserName</p>
-                                <p>@tag</p>
-                                <p className="">Sun Jan 03 2023</p>
+                                <p className="font-bold">{username}</p>
+                                <p>@{tag}</p>
+                                <p className="">{new Date(timestamp).toDateString()}</p>
                             </div>
                             <button className="flex justify-center items-center w-10 h-10 hover:bg-blue-100 hover:rounded-full">
                                 <PropertiesBtn />
                             </button>
                         </div>
-                        <p>"Hey!"</p>
+                        <p>{text}</p>
                         <TweetMenu />
                     </div>
                 </div> 
