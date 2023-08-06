@@ -1,4 +1,6 @@
 import { initializeApp } from "firebase/app"
+import { getFirestore } from "firebase/firestore"
+import { getStorage } from "firebase/storage"
 import { 
     getAuth, 
     onAuthStateChanged, 
@@ -6,7 +8,8 @@ import {
     signInWithEmailAndPassword, 
     signOut 
 } from "firebase/auth"
-import { getFirestore } from "firebase/firestore"
+
+
  
 export const app = initializeApp(
     {
@@ -21,6 +24,7 @@ export const app = initializeApp(
 
 const auth = getAuth(app);
 const firestore = getFirestore(app);
+const storage = getStorage(app);
 
 export { 
     auth, 
@@ -28,6 +32,7 @@ export {
     signOut, 
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    firestore 
+    firestore,
+    storage 
 };
 

@@ -2,10 +2,16 @@ import { useState } from "react"
 import CreateAccountForm from "./forms/CreateAccountForm";
 import LoginForm from "./forms/LoginForm";
 
-export default function UnloggedPage() {
-    const [showCreateAccountForm, setShowCreateAccountForm] = useState(false);
-    const [showLoginForm, setShowLoginForm] = useState(false);
-
+export default function UnloggedPage({
+    showCreateAccountForm, 
+    setShowCreateAccountForm,
+    showLoginForm,
+    setShowLoginForm,
+    userDetails,
+    setUserDetails
+    }) 
+{
+    
     return (
         <>
             <div className={`md:flex justify-center items-center w-screen min-h-screen bg-black text-white font-bold ${showCreateAccountForm || showLoginForm ? 'hidden' : 'flex'}`}>
@@ -103,6 +109,8 @@ export default function UnloggedPage() {
             {showCreateAccountForm && 
                 <CreateAccountForm 
                     setShowCreateAccountForm={setShowCreateAccountForm}
+                    userDetails={userDetails}
+                    setUserDetails={setUserDetails}
                 />}
             {showLoginForm && 
                 <LoginForm 

@@ -1,46 +1,60 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
-import { auth, createUserWithEmailAndPassword, firestore } from "../../firebase";
+import { auth, createUserWithEmailAndPassword, firestore, storage } from "../../firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-export default function CreateAccountForm( { setShowCreateAccountForm} ) {
-    const [userDetails, setUserDetails] = useState({
-        username: "",
-        tagname: "",
-        email: "",
-        password: ""
-    });
+export default function CreateAccountForm( { setShowCreateAccountForm, userDetails, setUserDetails} ) {
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleCreateAccountChange = (e) => {
         const { name, value } = e.target;
-        setUserDetails(prevDetails => ({
-            ...prevDetails,
-            [name]: value
-        }));
-    }
+        if (name === "profileImg") {
+            setUserDetails(prevDetails => ({
+                ...prevDetails,
+                [name]: e.target.files[0]
+            }));
+        } else {
+            setUserDetails(prevDetails => ({
+                ...prevDetails,
+                [name]: value
+            }));
+        }
+    };
 
     const handleCreateAccountSubmit = async (e) => {
         e.preventDefault();
-        const { username, tagname, email, password } = userDetails;
+        const { profileImg, username, tagname, email, password } = userDetails;
 
         try {
+            // Create user
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
+            // Upload profile image to Firebase Storage
+            const profileImgRef = ref(storage, `profileImages/${user.uid}`);
+            await uploadBytes(profileImgRef, profileImg);
+            const profileImgUrl = await getDownloadURL(profileImgRef);
+
+            // Save user data to our db
             await setDoc(doc(collection(firestore, 'users'), user.uid), {
+                profileImgUrl,
+                userId: user.uid,
                 username,
                 tagname
             });
 
-        setUserDetails({
-            username: "",
-            tagname: "",
-            email: "",
-            password: ""
-        });
-
-
+            setUserDetails({
+                profileImg: profileImgUrl,
+                userId: user.uid,
+                username,
+                tagname,
+            });
+        
+        setErrorMessage(null);
+        
         } catch (error) {
             console.error("Error creating user:", error.message)
+            setErrorMessage(error.message);
         }
     }
 
@@ -53,10 +67,20 @@ export default function CreateAccountForm( { setShowCreateAccountForm} ) {
                 </button>
                 <h1 className="font-bold text-xl mb-10">Créer un compte</h1>
                 <form className="w-full max-w-sm" onSubmit={handleCreateAccountSubmit}>
+                    <div>
+                        <input
+                            name="profileImg"
+                            className="shadow rounded w-full py-4 pr-3 text-gray-700 leading-tight focus:outline-none"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleCreateAccountChange}
+                        >
+                        </input>
+                    </div>
                     <div className="mb-4">
                         <input
                         name="username"
-                        className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                        className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
                         type="text"
                         placeholder="Username"
                         onChange={handleCreateAccountChange}
@@ -89,13 +113,14 @@ export default function CreateAccountForm( { setShowCreateAccountForm} ) {
                         onChange={handleCreateAccountChange}
                         />
                     </div>
-                    <div className="flex justify-center my-10">
+                    <div className="flex flex-col gap-4 items-center mt-10">
                         <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none"
                         type="submit"
                         >
-                        Create Account
+                        Créer compte
                         </button>
+                        {errorMessage && <div className="text-red-500 font-bold">{errorMessage}</div>}
                     </div>
                 </form>
             </div>

@@ -19,9 +19,12 @@ export default function PostForm( { setShowPostForm } ) {
         const userData = userSnapshot.data();
         const username = userData.username;
         const tagname = userData.tagname;
+        const profileImgUrl = userData.profileImgUrl;
 
         const tweet = {
+            profileImgUrl: profileImgUrl,
             username: username,
+            userId: user.uid,
             tagname: tagname,
             userMessage: userMessage,
             timestamp: new Date().getTime()
