@@ -6,7 +6,8 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 export default function CenterFeed({ 
         tweets, 
         setTweets, 
-        handleProfileClick 
+        handleProfileClick,
+        userDetails
     }) 
 {
 
@@ -25,7 +26,10 @@ export default function CenterFeed({
     }, []);
 
     return (
-        <div className="relative border-x border-gray-300 w-full md:w-5/6 lg:w-4/6">
+        <div id="center-feed" className="relative border-x border-gray-300 text-black w-full md:w-5/6 lg:w-4/6">
+            <div className="flex border-b h-20 bg-color-default sticky top-0">
+                <p className="w-fit h-fit ml-5 mt-2 font-bold text-lg cursor-pointer">Home</p>
+            </div>
             {tweets.map((tweet) => (
                 <TweetContainer 
                     key={tweet.timestamp}

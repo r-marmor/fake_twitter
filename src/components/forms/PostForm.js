@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { auth, firestore } from "../../firebase";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 
 export default function PostForm( { setShowPostForm } ) {
     const [userMessage, setUserMessage] = useState('');
@@ -23,15 +23,23 @@ export default function PostForm( { setShowPostForm } ) {
 
         const tweet = {
             profileImgUrl: profileImgUrl,
-            username: username,
             userId: user.uid,
-            tagname: tagname,
-            userMessage: userMessage,
+            likes: 0,
+            username,
+            tagname,
+            userMessage,
             timestamp: new Date().getTime()
         };
 
         const tweetsCollection = collection(firestore, 'tweets');
         await addDoc(tweetsCollection, tweet);
+
+        // increments the user's tweet count
+        userData.totalTweets = userData.totalTweets +1;
+
+        await updateDoc(userDoc, {
+            totalTweets: userData.totalTweets
+        });
 
         setUserMessage('');
         setShowPostForm(false);

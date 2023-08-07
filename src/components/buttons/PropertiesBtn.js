@@ -13,7 +13,7 @@ export default function PropertiesBtn() {
 
     return (
             <svg 
-                className="hover:bg-slate-100 rounded-full cursor-pointer"
+                className="rounded-full cursor-pointer"
                 width="25px" 
                 height="25px" 
                 viewBox="0 0 24 24" 

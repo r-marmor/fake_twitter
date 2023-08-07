@@ -22,9 +22,11 @@ export default function Homepage({
                 userDetails={userDetails}
                 showPostForm={showPostForm}
                 setShowPostForm={setShowPostForm}
+                handleProfileClick={handleProfileClick}
                 />
                 {showProfilePage ? (
-                    <ProfilePage 
+                    <ProfilePage
+                        tweets={tweets}
                         userDetails={userDetails}
                         setShowProfilePage={setShowProfilePage}
                         viewedUserDetails={viewedUserDetails}
@@ -33,6 +35,7 @@ export default function Homepage({
                     <CenterFeed
                     tweets={tweets}
                     setTweets={setTweets}
+                    userDetails={userDetails}
                     handleProfileClick={handleProfileClick}   
                 />
                 )}

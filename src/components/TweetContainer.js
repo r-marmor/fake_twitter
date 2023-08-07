@@ -12,7 +12,7 @@ export default function TweetContainer({
     }) 
 {
     return (
-        <div className="p-2 border-b">
+        <div className="px-2 pt-4 border-b">
                 <div className="flex">
                     <div className="w-fit">
                         <img onClick={() => handleProfileClick(userId)} src={profileImg} className="rounded-full w-14 h-14 object-cover cursor-pointer"  alt="profile"></img>

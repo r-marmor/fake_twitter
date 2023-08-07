@@ -1,11 +1,23 @@
+import { useEffect, useRef } from "react";
+import TweetContainer from "./TweetContainer";
+
 export default function ProfilePage({ 
-    userDetails, 
     setShowProfilePage, 
-    viewedUserDetails 
-    }) 
+    viewedUserDetails,
+    tweets
+    })
 {
+
+    const tweetButtonRef = useRef(null);
+
+    useEffect(() => {
+        if (tweetButtonRef.current) {
+            tweetButtonRef.current.focus();
+        }
+    }, []);
+
     return (
-        <div id="profileContainer" className="border-x border-gray-300 w-full md:w-5/6 lg:w-4/6">
+        <div id="profileContainer" className="border-x border-gray-300 text-black w-full md:w-5/6 lg:w-4/6">
             <div id="profileHeader" className="sticky flex gap-5 items-center px-5 border h-20">
                 <svg onClick={() => setShowProfilePage(false)}
                      className="cursor-pointer"
@@ -19,31 +31,46 @@ export default function ProfilePage({
                 </svg>
                 <div>
                     <h1 className="font-bold text-black text-lg">{viewedUserDetails.username}</h1>
-                    <p className="font-gray-200 text-xs">44 tweets</p>
+                    <p className="font-gray-200 text-sm">{viewedUserDetails.totalTweets} tweets</p>
                 </div>
             </div>
-            <img src={viewedUserDetails.profileImgUrl} alt="profile" className="w-32 h-32 rounded-full object-cover"></img>
-            <div>
-                <div className="flex justify-between w-full">
-                    <img src="#"></img>
-                    <button>Follow</button>
-                </div>
-                <div>
-                    <h1>{viewedUserDetails.username}</h1>
-                    <p>@{viewedUserDetails.tagname}</p>
-                    <p>subscription date</p>
-                    <p>number of followers</p>
-                    <p></p>
+            <div id="profileMainContent">
+                <div id="coverImage" className="border h-48"><img src="#"></img></div>
+                <div className="relative">
+                    <img src={viewedUserDetails.profileImgUrl} alt="profile" className="absolute -top-16 ml-5 w-32 h-32 rounded-full object-cover"></img>
+                    <button type="button" className="py-2.5 px-5 w-32 absolute right-4 mr-2 mt-4 text-sm font-medium text-green-500 focus:outline-none bg-white rounded-full border border-green-500 hover:bg-green-800">Follow</button>
+                    <div className="h-20"></div>
+                    <div className="flex flex-col gap-2 mb-8 ml-5">
+                        <h1 className="text-black font-bold text-xl">{viewedUserDetails.username}</h1>
+                        <p className="text-xs text-gray-400">@{viewedUserDetails.tagname}</p>
+                        <p className="text-md text-gray-400">
+                            {viewedUserDetails.subscriptionDate.toDate().toLocaleDateString("FR", {
+                            year: "numeric", 
+                            month: "long", 
+                            day: "numeric"
+                        })}</p>
+                        <p className="text-md text-gray-400">number of followers</p>
+                    </div> 
                 </div>
             </div>
-            <div id="profileMenu" className="flex gap-5">
-                <p>Tweets</p>
-                <p>Tweets & replies</p>
-                <p>Media</p>
-                <p>Likes</p>
+            <div id="profileMenu" className="flex w-full justify-between text-center font-bold cursor-pointer">
+                <button ref={tweetButtonRef} className="w-1/4 py-2 hover:text-green-500 hover:bg-green-200 focus:border-b-2 focus:border-green-500 focus:text-green-500">Tweets</button>
+                <button className="w-1/4 py-2 hover:text-green-500 hover:bg-green-200 focus:border-b-2 focus:border-green-500 focus:text-green-500">Réponses</button>
+                <button className="w-1/4 py-2 hover:text-green-500 hover:bg-green-200 focus:border-b-2 focus:border-green-500 focus:text-green-500">Médias</button>
+                <button className="w-1/4 py-2 hover:text-green-500 hover:bg-green-200 focus:border-b-2 focus:border-green-500 focus:text-green-500">Likes</button>
             </div>
-            <div id="menuContainer">
-
+            <div id="menuContainer" className="border-t">
+                {tweets.filter(tweet => tweet.userId === viewedUserDetails.userId).map((tweet) => (
+                    <TweetContainer
+                        key={tweet.timestamp}
+                        profileImg={tweet.profileImgUrl}
+                        username={tweet.username}
+                        tag={tweet.tagname}
+                        text={tweet.userMessage}
+                        timestamp={tweet.timestamp}
+                        userId={tweet.userId}
+                    />
+                ))}
             </div>
         </div>
     )

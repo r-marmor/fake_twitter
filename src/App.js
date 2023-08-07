@@ -24,7 +24,8 @@ function App() {
     username: "",
     tagname: "",
     email: "",
-    password: ""
+    password: "",
+    subscriptionDate: ""
 });
 
   useEffect(() => {

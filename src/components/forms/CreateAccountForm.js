@@ -34,13 +34,16 @@ export default function CreateAccountForm( { setShowCreateAccountForm, userDetai
             const profileImgRef = ref(storage, `profileImages/${user.uid}`);
             await uploadBytes(profileImgRef, profileImg);
             const profileImgUrl = await getDownloadURL(profileImgRef);
+            const subscriptionDate = new Date();
 
             // Save user data to our db
             await setDoc(doc(collection(firestore, 'users'), user.uid), {
                 profileImgUrl,
                 userId: user.uid,
                 username,
-                tagname
+                tagname,
+                subscriptionDate,
+                totalTweets: 0
             });
 
             setUserDetails({
@@ -48,6 +51,8 @@ export default function CreateAccountForm( { setShowCreateAccountForm, userDetai
                 userId: user.uid,
                 username,
                 tagname,
+                subscriptionDate,
+                totalTweets: 0
             });
         
         setErrorMessage(null);

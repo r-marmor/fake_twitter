@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 .bg-color-default {
-    background-color: #34555c;
+    background-color: rgb(245, 245, 245);
 }
 
-.test {
-    height: 1000px;
+.custom-green {
+    color: #1df2a1;
 }
