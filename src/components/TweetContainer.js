@@ -7,8 +7,12 @@ export default function TweetContainer({
     tag, 
     timestamp, 
     text,
+    tweetLikes,
+    tweetId,
     userId,
-    handleProfileClick 
+    imagesUrl,
+    handleProfileClick,
+    toggleLike
     }) 
 {
     return (
@@ -28,8 +32,16 @@ export default function TweetContainer({
                                 <PropertiesBtn />
                             </button>
                         </div>
-                        <p>{text}</p>
-                        <TweetMenu />
+                        <div className="flex flex-col items-start gap-5">
+                            <div className="grid grid-cols-2 gap-1">
+                                {imagesUrl && imagesUrl.length > 0 && imagesUrl.map((url, index) => (
+                                <img key={index} src={url} alt="uploaded-content" className="rounded-lg max-h-60 object-cover mt-6"></img>
+                            ))}
+                            </div>
+                            
+                            <p>{text}</p>
+                        </div>
+                        <TweetMenu tweetLikes={tweetLikes} toggleLike={toggleLike} tweetId={tweetId} />
                     </div>
                 </div> 
             </div>

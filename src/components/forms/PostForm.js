@@ -1,9 +1,10 @@
 import { useState } from "react"
-import { auth, firestore } from "../../firebase";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { auth, firestore, storage } from "../../firebase";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-export default function PostForm( { setShowPostForm } ) {
-    const [userMessage, setUserMessage] = useState('');
+export default function PostForm( { setShowPostForm, images, setImages, userMessage, setUserMessage } ) {
+    const [errorUploadMsg, setErrorUploadMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,27 +22,46 @@ export default function PostForm( { setShowPostForm } ) {
         const tagname = userData.tagname;
         const profileImgUrl = userData.profileImgUrl;
 
+        let imagesUrl = [];
+
+        for (const image of images) {
+                try {
+                    const storageRef = ref(storage, `tweets/${image.name}`);
+                    await uploadBytesResumable(storageRef, image);
+                    const currentImageUrl = await getDownloadURL(storageRef);
+                    imagesUrl.push(currentImageUrl);
+                } catch(error) {
+                    console.error("Failed to load image:", error.message)
+                }
+            }
+
+        const tweetsCollection = collection(firestore, 'tweets');
+        const tweetRef = doc(tweetsCollection);
+        const tweetId = tweetRef.id;
+
         const tweet = {
             profileImgUrl: profileImgUrl,
             userId: user.uid,
-            likes: 0,
+            likes: [],
+            tweetId,
             username,
             tagname,
             userMessage,
+            imagesUrl,
             timestamp: new Date().getTime()
         };
 
-        const tweetsCollection = collection(firestore, 'tweets');
-        await addDoc(tweetsCollection, tweet);
+        await setDoc(tweetRef, tweet);
 
         // increments the user's tweet count
-        userData.totalTweets = userData.totalTweets +1;
+        userData.totalTweets = parseInt(userData.totalTweets) + 1;
 
         await updateDoc(userDoc, {
             totalTweets: userData.totalTweets
         });
 
         setUserMessage('');
+        setImages([]);
         setShowPostForm(false);
     };
     
@@ -55,7 +75,7 @@ export default function PostForm( { setShowPostForm } ) {
                         <path d="M16 8L8 16M8.00001 8L16 16" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </button>
-                <form onSubmit={handleSubmit} className="w-full">
+                <form onSubmit={handleSubmit} className="w-full bg-slate-200 p-4 rounded-lg">
                     <div className="mb-4">
                         <input
                         name="userMessage"
@@ -64,6 +84,35 @@ export default function PostForm( { setShowPostForm } ) {
                         className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
                         placeholder="Quoi de neuf ?!"
                         />
+                    </div>
+                    <div className="flex flex-col mb-4">
+                        <input
+                        name="images"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={e => {
+                            if (e.target.files) {
+                                if (images.length + e.target.files.length > 2) {
+                                    setErrorUploadMessage('You can only upload up to 2 images')
+                                    return;
+                                }
+                                setImages(prevImages => [...prevImages, ...Array.from(e.target.files)]);
+                            }
+                        }}
+                        className="text-gray-700"
+                        />
+                        <div className="flex gap-2 mt-2">
+                            {images.map((image, index) => (
+                                <img
+                                    key={index}
+                                    src={URL.createObjectURL(image)}
+                                    alt=""
+                                    className="w-24 h-24 object-cover mb-2"
+                                />
+                            ))}
+                        </div>
+                        <div id="error-image" className="text-red-500 font-bold">{errorUploadMsg}</div>
                     </div>
                     <div className="flex justify-center mt-10">
                         <button

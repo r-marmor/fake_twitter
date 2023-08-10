@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .bg-color-default {
-    background-color: rgb(245, 245, 245);
+    background-color: whitesmoke;
 }
 
 .custom-green {

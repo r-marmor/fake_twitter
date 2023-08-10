@@ -4,15 +4,22 @@ import ProfilePage from "./ProfilePage";
 import Sidebar from "./Sidebar";
 
 export default function Homepage({
+    user,
     userDetails,  
     showPostForm, 
     setShowPostForm, 
-    tweets, 
+    tweets,
+    tweetLikes,
     setTweets,
     showProfilePage,
     setShowProfilePage,
     handleProfileClick,
-    viewedUserDetails
+    viewedUserDetails,
+    images,
+    setImages,
+    userMessage,
+    setUserMessage,
+    toggleLike
     }) 
 {
 
@@ -23,20 +30,30 @@ export default function Homepage({
                 showPostForm={showPostForm}
                 setShowPostForm={setShowPostForm}
                 handleProfileClick={handleProfileClick}
+                images={images}
+                setImages={setImages}
+                userMessage={userMessage}
+                setUserMessage={setUserMessage}
                 />
                 {showProfilePage ? (
                     <ProfilePage
+                        userId={user.uid}
                         tweets={tweets}
+                        tweetLikes={tweetLikes}
                         userDetails={userDetails}
                         setShowProfilePage={setShowProfilePage}
                         viewedUserDetails={viewedUserDetails}
+                        toggleLike={toggleLike}
+                        handleProfileClick={handleProfileClick}
                     />
                 ) : (
                     <CenterFeed
+                    user={user}
                     tweets={tweets}
                     setTweets={setTweets}
                     userDetails={userDetails}
-                    handleProfileClick={handleProfileClick}   
+                    handleProfileClick={handleProfileClick}
+                    toggleLike={toggleLike}  
                 />
                 )}
                 <Sidebar />

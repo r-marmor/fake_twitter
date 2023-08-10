@@ -4,10 +4,11 @@ import { firestore } from "../firebase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 export default function CenterFeed({ 
+        user,
         tweets, 
         setTweets, 
         handleProfileClick,
-        userDetails
+        toggleLike
     }) 
 {
 
@@ -30,17 +31,23 @@ export default function CenterFeed({
             <div className="flex border-b h-20 bg-color-default sticky top-0">
                 <p className="w-fit h-fit ml-5 mt-2 font-bold text-lg cursor-pointer">Home</p>
             </div>
-            {tweets.map((tweet) => (
-                <TweetContainer 
-                    key={tweet.timestamp}
-                    profileImg={tweet.profileImgUrl}
-                    username={tweet.username}
-                    tag={tweet.tagname}
-                    timestamp={tweet.timestamp}
-                    text={tweet.userMessage}
-                    userId={tweet.userId}
-                    handleProfileClick={handleProfileClick}
-                />
+            {tweets
+                .filter(tweet => tweet.userId === user.uid)
+                .map(filteredTweets => (
+                    <TweetContainer 
+                        key={filteredTweets.timestamp}
+                        profileImg={filteredTweets.profileImgUrl}
+                        username={filteredTweets.username}
+                        tag={filteredTweets.tagname}
+                        timestamp={filteredTweets.timestamp}
+                        text={filteredTweets.userMessage}
+                        tweetLikes={filteredTweets.likes}
+                        tweetId={filteredTweets.tweetId}
+                        imagesUrl={filteredTweets.imagesUrl}
+                        userId={filteredTweets.userId}
+                        handleProfileClick={handleProfileClick}
+                        toggleLike={toggleLike}
+                    />
             ))}
         </div>
     )

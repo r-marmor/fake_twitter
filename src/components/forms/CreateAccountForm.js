@@ -43,6 +43,7 @@ export default function CreateAccountForm( { setShowCreateAccountForm, userDetai
                 username,
                 tagname,
                 subscriptionDate,
+                likedTweetsId: [],
                 totalTweets: 0
             });
 
@@ -52,6 +53,7 @@ export default function CreateAccountForm( { setShowCreateAccountForm, userDetai
                 username,
                 tagname,
                 subscriptionDate,
+                likedTweetsId: [],
                 totalTweets: 0
             });
         

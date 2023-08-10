@@ -5,7 +5,11 @@ export default function Menu({
     userDetails, 
     showPostForm, 
     setShowPostForm,
-    handleProfileClick
+    handleProfileClick,
+    images,
+    setImages,
+    userMessage,
+    setUserMessage
     }) 
 {
     
@@ -41,7 +45,12 @@ export default function Menu({
             <div id="mask_div" className={`absolute z-10 bg-black w-screen h-screen top-0 left-0 opacity-80 ${showPostForm ? 'md:block' : 'hidden'} `}>
             </div>
                 {showPostForm && 
-                    <PostForm setShowPostForm={setShowPostForm} />
+                    <PostForm 
+                        setShowPostForm={setShowPostForm}
+                        images={images}
+                        setImages={setImages}
+                        userMessage={userMessage}
+                        setUserMessage={setUserMessage} />
                 }
         </>
     )

@@ -5,11 +5,13 @@ import Homepage from "./components/Homepage";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, firestore } from "./firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 
 
 function App() {
   const [user, setUser] = useState(null);
+  const [userMessage, setUserMessage] = useState('');
+  const [images, setImages] = useState([]);
 
   const [showPostForm, setShowPostForm] = useState(false);
   const [showCreateAccountForm, setShowCreateAccountForm] = useState(false);
@@ -55,12 +57,47 @@ function App() {
     setIsProfileLoading(false);
   }
 
+  const toggleLike = async (tweetId) => {
+    const tweetDocRef = doc(firestore, 'tweets', tweetId);
+    const userDocRef = doc(firestore, 'users', user.uid);
+
+    const tweetIndex = tweets.findIndex(tweet => tweet.tweetId === tweetId);
+    const tweet = tweets[tweetIndex];
+
+    const hasLiked = tweet.likes.includes(user.uid);
+
+    if (hasLiked) {
+      await updateDoc(tweetDocRef, {
+        likes: arrayRemove(user.uid)
+      });
+      await updateDoc(userDocRef, {
+        likedTweetsId: arrayRemove(tweetId)
+      })
+
+      tweet.likes = tweet.likes.filter(id => id !== user.uid);
+    } else {
+      await updateDoc(tweetDocRef, {
+        likes: arrayUnion(user.uid)
+      });
+      await updateDoc(userDocRef, {
+        likedTweetsId: arrayUnion(tweetId)
+      })
+
+      tweet.likes.push(user.uid);
+    }
+    
+    const updatedTweets = [...tweets];
+    updatedTweets[tweetIndex] = tweet;
+    setTweets(updatedTweets);
+  }
+
   return (
     isProfileLoading ? (
       <div>Loading spinner...</div>
     ) : (
       user ? (
           <Homepage
+            user={user}
             tweets={tweets}
             setTweets={setTweets}
             showProfilePage={showProfilePage}
@@ -70,6 +107,11 @@ function App() {
             showPostForm={showPostForm}
             setShowPostForm={setShowPostForm}
             viewedUserDetails={viewedUserDetails}
+            images={images}
+            setImages={setImages}
+            userMessage={userMessage}
+            setUserMessage={setUserMessage}
+            toggleLike={toggleLike}
           />
         ) : (
           <UnloggedPage
