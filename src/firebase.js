@@ -10,7 +10,6 @@ import {
 } from "firebase/auth"
 
 
- 
 export const app = initializeApp(
     {
         apiKey: "AIzaSyDGo1-rnRIQP90m5-I5miQalwukBoCtt2c",
@@ -33,6 +32,6 @@ export {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     firestore,
-    storage 
+    storage,
 };
 

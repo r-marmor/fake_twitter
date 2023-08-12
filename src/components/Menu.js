@@ -1,8 +1,8 @@
 import PropertiesBtn from "./buttons/PropertiesBtn";
 import PostForm from "./forms/PostForm";
+import { useAuth } from "./useAuth";
 
-export default function Menu({ 
-    userDetails, 
+export default function Menu({  
     showPostForm, 
     setShowPostForm,
     handleProfileClick,
@@ -12,6 +12,8 @@ export default function Menu({
     setUserMessage
     }) 
 {
+
+    const [, userDetails] = useAuth();
     
     return (
         <>
@@ -35,9 +37,9 @@ export default function Menu({
                     </button>
                 </ul>
                     <div className="hidden md:flex justify-between items-center w-full bg-slate-100 hover:bg-slate-200 focus:outline-none font-medium rounded-full px-5 py-2.5 text-sm text-center text-black">
-                        <div onClick={() => handleProfileClick(userDetails.userId)} className="flex flex-col items-start cursor-pointer">
-                            <p className="font-bold">{userDetails.username}</p>
-                            <p className="text-gray-400">@{userDetails.tagname}</p>
+                        <div onClick={() => handleProfileClick(userDetails?.userId)} className="flex flex-col items-start cursor-pointer">
+                            <p className="font-bold">{userDetails? userDetails.username : 'Loading...'}</p>
+                            <p className="text-gray-400">@{userDetails? '@' + userDetails.tagname : '...'}</p>
                         </div>
                         <PropertiesBtn />
                     </div>

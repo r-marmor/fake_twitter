@@ -12,7 +12,8 @@ export default function TweetContainer({
     userId,
     imagesUrl,
     handleProfileClick,
-    toggleLike
+    toggleLike,
+    tweets
     }) 
 {
     return (
@@ -41,7 +42,7 @@ export default function TweetContainer({
                             
                             <p>{text}</p>
                         </div>
-                        <TweetMenu tweetLikes={tweetLikes} toggleLike={toggleLike} tweetId={tweetId} />
+                        <TweetMenu tweetLikes={tweetLikes} toggleLike={toggleLike} tweetId={tweetId} tweets={tweets} />
                     </div>
                 </div> 
             </div>

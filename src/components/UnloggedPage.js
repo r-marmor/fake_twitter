@@ -1,20 +1,19 @@
-import { useState } from "react"
 import CreateAccountForm from "./forms/CreateAccountForm";
 import LoginForm from "./forms/LoginForm";
 
 export default function UnloggedPage({
-    showCreateAccountForm, 
+    showCreateAccountForm = false, 
     setShowCreateAccountForm,
-    showLoginForm,
+    showLoginForm = false,
     setShowLoginForm,
-    userDetails,
-    setUserDetails
     }) 
 {
+
+    const isFormOpen = showCreateAccountForm || showLoginForm;
     
     return (
         <>
-            <div className={`md:flex justify-center items-center w-screen min-h-screen bg-black text-white font-bold ${showCreateAccountForm || showLoginForm ? 'hidden' : 'flex'}`}>
+            <div className={`md:flex justify-center items-center w-screen min-h-screen bg-black text-white font-bold ${isFormOpen ? 'hidden' : 'flex'}`}>
                 <div className="w-full px-5 sm:w-2/3 md:w-1/3 h-full flex flex-col items-center md:items-start gap-2 pt-20">
                 <svg className="mb-10" fill="#ffffff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
                         width="80px" height="80px" viewBox="0 0 247.632 247.633"
@@ -105,12 +104,10 @@ export default function UnloggedPage({
                 </div>
             </div>
             {/* MASK DIV */}
-            <div id="mask_div" className={`hidden absolute z-10 bg-black w-screen h-screen top-0 left-0 opacity-60 ${showCreateAccountForm || showLoginForm ? 'md:block' : 'hidden'}`}></div>
+            <div id="mask_div" className={`hidden absolute z-10 bg-black w-screen h-screen top-0 left-0 opacity-60 ${isFormOpen ? 'md:block' : 'hidden'}`}></div>
             {showCreateAccountForm && 
                 <CreateAccountForm 
                     setShowCreateAccountForm={setShowCreateAccountForm}
-                    userDetails={userDetails}
-                    setUserDetails={setUserDetails}
                 />}
             {showLoginForm && 
                 <LoginForm 

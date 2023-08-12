@@ -1,5 +1,7 @@
-export default function TweetMenu( { tweetLikes, toggleLike, tweetId } ) {
-    
+import { useAuth } from "./useAuth"
+
+export default function TweetMenu( { tweetLikes, toggleLike, tweetId, tweets } ) {
+        const [user, ] = useAuth();
 
     return (
         <div className="w-full flex justify-between items-center mt-2">
@@ -12,7 +14,7 @@ export default function TweetMenu( { tweetLikes, toggleLike, tweetId } ) {
                 <svg width="24px" height="24px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="3" stroke="#000000" fill="none"><path d="M52.94,42.93V18.3a5.54,5.54,0,0,0-5.54-5.54H11.83"/><path d="M11.83,20.14V44.77a5.54,5.54,0,0,0,5.54,5.54H52.94"/><polyline points="4.15 26.39 12.09 20.14 19.51 26.88"/><polyline points="60.36 36.12 52.91 42.94 45 36.76"/></svg>
             </button>
             <div className="flex items-center gap-2">
-                <button onClick={() => toggleLike(tweetId)} className="flex justify-center items-center w-10 h-10 hover:bg-red-100 hover:rounded-full">
+                <button onClick={() => toggleLike(tweetId, user.uid, tweets)} className="flex justify-center items-center w-10 h-10 hover:bg-red-100 hover:rounded-full">
                     <svg className="" version="1.1" xmlns="http://www.w3.org/2000/svg" 
                         width="25px" height="25px" viewBox="0 0 32 32">
                         <path d="M10.5,8v2C9.122,10,8,11.121,8,12.5H6C6,10.019,8.019,8,10.5,8z"/>

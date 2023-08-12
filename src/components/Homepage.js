@@ -19,7 +19,8 @@ export default function Homepage({
     setImages,
     userMessage,
     setUserMessage,
-    toggleLike
+    toggleLike,
+    toggleFollowBtn
     }) 
 {
 
@@ -45,6 +46,7 @@ export default function Homepage({
                         viewedUserDetails={viewedUserDetails}
                         toggleLike={toggleLike}
                         handleProfileClick={handleProfileClick}
+                        toggleFollowBtn={toggleFollowBtn}
                     />
                 ) : (
                     <CenterFeed
