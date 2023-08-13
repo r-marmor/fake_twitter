@@ -3,18 +3,28 @@ import { useState } from "react";
 import { auth, createUserWithEmailAndPassword, firestore, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-export default function CreateAccountForm( { setShowCreateAccountForm, userDetails, setUserDetails} ) {
+export default function CreateAccountForm({ 
+    setShowCreateAccountForm,
+}) {
+
     const [errorMessage, setErrorMessage] = useState(null);
+    const [formData, setFormData] = useState({
+        profileImg: null,
+        username: '',
+        tagname: '',
+        email: '',
+        password: ''
+    })
 
     const handleCreateAccountChange = (e) => {
         const { name, value } = e.target;
         if (name === "profileImg") {
-            setUserDetails(prevDetails => ({
+            setFormData(prevDetails => ({
                 ...prevDetails,
                 [name]: e.target.files[0]
             }));
         } else {
-            setUserDetails(prevDetails => ({
+            setFormData(prevDetails => ({
                 ...prevDetails,
                 [name]: value
             }));
@@ -23,7 +33,7 @@ export default function CreateAccountForm( { setShowCreateAccountForm, userDetai
 
     const handleCreateAccountSubmit = async (e) => {
         e.preventDefault();
-        const { profileImg, username, tagname, email, password } = userDetails;
+        const { profileImg, username, tagname, email, password } = formData;
 
         try {
             // Create user
@@ -49,19 +59,7 @@ export default function CreateAccountForm( { setShowCreateAccountForm, userDetai
                 totalTweets: 0
             });
 
-            setUserDetails({
-                profileImg: profileImgUrl,
-                userId: user.uid,
-                username,
-                tagname,
-                subscriptionDate,
-                followers: [],
-                following: [],
-                likedTweetsId: [],
-                totalTweets: 0
-            });
-        
-        setErrorMessage(null);
+            setErrorMessage(null);
         
         } catch (error) {
             console.error("Error creating user:", error.message)

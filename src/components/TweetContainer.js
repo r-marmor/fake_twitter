@@ -13,7 +13,8 @@ export default function TweetContainer({
     imagesUrl,
     handleProfileClick,
     toggleLike,
-    tweets
+    tweets,
+    
     }) 
 {
     return (
@@ -39,7 +40,6 @@ export default function TweetContainer({
                                 <img key={index} src={url} alt="uploaded-content" className="rounded-lg max-h-60 object-cover mt-6"></img>
                             ))}
                             </div>
-                            
                             <p>{text}</p>
                         </div>
                         <TweetMenu tweetLikes={tweetLikes} toggleLike={toggleLike} tweetId={tweetId} tweets={tweets} />

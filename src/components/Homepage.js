@@ -14,13 +14,16 @@ export default function Homepage({
     showProfilePage,
     setShowProfilePage,
     handleProfileClick,
+    setShowPostsReplyPage,
+    showPostsReplyPage,
     viewedUserDetails,
     images,
     setImages,
     userMessage,
     setUserMessage,
     toggleLike,
-    toggleFollowBtn
+    toggleFollowBtn,
+    showHomepage
     }) 
 {
 
@@ -35,10 +38,12 @@ export default function Homepage({
                 setImages={setImages}
                 userMessage={userMessage}
                 setUserMessage={setUserMessage}
+                showProfilePage={showProfilePage}
+                setShowProfilePage={setShowProfilePage}
+                showHomepage={showHomepage}
                 />
                 {showProfilePage ? (
                     <ProfilePage
-                        userId={user.uid}
                         tweets={tweets}
                         tweetLikes={tweetLikes}
                         userDetails={userDetails}
@@ -47,6 +52,7 @@ export default function Homepage({
                         toggleLike={toggleLike}
                         handleProfileClick={handleProfileClick}
                         toggleFollowBtn={toggleFollowBtn}
+                        showHomepage={showHomepage}
                     />
                 ) : (
                     <CenterFeed
@@ -55,7 +61,11 @@ export default function Homepage({
                     setTweets={setTweets}
                     userDetails={userDetails}
                     handleProfileClick={handleProfileClick}
-                    toggleLike={toggleLike}  
+                    toggleLike={toggleLike}
+                    setShowPostsReplyPage={setShowPostsReplyPage}  
+                    showPostsReplyPage={showPostsReplyPage}
+                    showHomepage={showHomepage}
+                    
                 />
                 )}
                 <Sidebar />

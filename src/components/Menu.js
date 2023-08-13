@@ -9,7 +9,9 @@ export default function Menu({
     images,
     setImages,
     userMessage,
-    setUserMessage
+    setUserMessage,
+    setShowProfilePage,
+    showHomepage
     }) 
 {
 
@@ -25,7 +27,8 @@ export default function Menu({
                             <path d="M125.967,51.533V20.314h-16.862V38.06L77.569,12.814L0,74.869h21.361v67.455h112.416v-67.45h21.361
                                     L125.967,51.533z M125.925,134.472H97.546V82.37H57.58v52.103H29.202V71.146l48.356-38.689l48.355,38.689v63.326H125.925z"/>
                         </svg>
-                        <h1 className="hidden lg:block text-xl">Home</h1>            
+                        <h1 onClick={() => showHomepage()}
+                            className="hidden lg:block text-xl">Home</h1>            
                     </button>
                     <button className="flex justify-center items-center mb-2 gap-2 w-12 h-12 lg:w-full lg:justify-start lg:items-center lg:px-4 hover:bg-blue-100 hover:rounded-full">
                         <svg width="20px" height="20px" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="hashIconTitle" stroke="#000000" strokeWidth="1" strokeLinecap="square" strokeLinejoin="miter" fill="none" color="#000000"><path d="M11 3L5 21M19 3L13 21M3 16L19 16M5 8L21 8"/> </svg>
@@ -39,7 +42,7 @@ export default function Menu({
                     <div className="hidden md:flex justify-between items-center w-full bg-slate-100 hover:bg-slate-200 focus:outline-none font-medium rounded-full px-5 py-2.5 text-sm text-center text-black">
                         <div onClick={() => handleProfileClick(userDetails?.userId)} className="flex flex-col items-start cursor-pointer">
                             <p className="font-bold">{userDetails? userDetails.username : 'Loading...'}</p>
-                            <p className="text-gray-400">@{userDetails? '@' + userDetails.tagname : '...'}</p>
+                            <p className="text-gray-400">{userDetails? '@' + userDetails.tagname : '...'}</p>
                         </div>
                         <PropertiesBtn />
                     </div>

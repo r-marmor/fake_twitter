@@ -1,11 +1,17 @@
 import { useAuth } from "./useAuth"
 
-export default function TweetMenu( { tweetLikes, toggleLike, tweetId, tweets } ) {
-        const [user, ] = useAuth();
+export default function TweetMenu({ 
+    tweetLikes, 
+    toggleLike, 
+    tweetId, 
+    tweets
+}) {
+        const [, userDetails ] = useAuth();
 
     return (
         <div className="w-full flex justify-between items-center mt-2">
-            <button className="flex justify-center items-center w-10 h-10 hover:bg-blue-100 hover:rounded-full">
+            <button
+                className="flex justify-center items-center w-10 h-10 hover:bg-blue-100 hover:rounded-full">
                 <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21.0039 12C21.0039 16.9706 16.9745 21 12.0039 21C9.9675 21 3.00463 21 3.00463 21C3.00463 21 4.56382 17.2561 3.93982 16.0008C3.34076 14.7956 3.00391 13.4372 3.00391 12C3.00391 7.02944 7.03334 3 12.0039 3C16.9745 3 21.0039 7.02944 21.0039 12Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -14,7 +20,8 @@ export default function TweetMenu( { tweetLikes, toggleLike, tweetId, tweets } )
                 <svg width="24px" height="24px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="3" stroke="#000000" fill="none"><path d="M52.94,42.93V18.3a5.54,5.54,0,0,0-5.54-5.54H11.83"/><path d="M11.83,20.14V44.77a5.54,5.54,0,0,0,5.54,5.54H52.94"/><polyline points="4.15 26.39 12.09 20.14 19.51 26.88"/><polyline points="60.36 36.12 52.91 42.94 45 36.76"/></svg>
             </button>
             <div className="flex items-center gap-2">
-                <button onClick={() => toggleLike(tweetId, user.uid, tweets)} className="flex justify-center items-center w-10 h-10 hover:bg-red-100 hover:rounded-full">
+                <button onClick={(event) => toggleLike(event, tweetId, userDetails.userId, tweets)}
+                        className="flex justify-center items-center w-10 h-10 hover:bg-red-100 hover:rounded-full">
                     <svg className="" version="1.1" xmlns="http://www.w3.org/2000/svg" 
                         width="25px" height="25px" viewBox="0 0 32 32">
                         <path d="M10.5,8v2C9.122,10,8,11.121,8,12.5H6C6,10.019,8.019,8,10.5,8z"/>

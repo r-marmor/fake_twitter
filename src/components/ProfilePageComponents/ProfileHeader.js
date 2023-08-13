@@ -1,12 +1,17 @@
-export function ProfileHeader( { setShowProfilePage, viewedUserDetails, displayFollowersPage, setDisplayFollowersPage } ) {
+export function ProfileHeader({ 
+    viewedUserDetails, 
+    displayFollowersPage, 
+    setDisplayFollowersPage,
+    showHomepage 
+}) {
     
     const handleBackBtn = () => {
-        displayFollowersPage ? setDisplayFollowersPage(false) : setShowProfilePage(false);
+        displayFollowersPage ? setDisplayFollowersPage(false) : showHomepage();
     }
     
     return (
         <div id="profileHeader" className="sticky bg-sticky z-50 top-0 flex gap-5 items-center px-5 border h-20">
-                <svg onClick={() => handleBackBtn(false)}
+                <svg onClick={() => handleBackBtn()}
                      className="cursor-pointer"
                      width="30px" 
                      height="30px" 

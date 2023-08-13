@@ -1,16 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TweetContainer from "./TweetContainer";
 import { firestore } from "../firebase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { TweetRepliesPage } from "./TweetRepliesPage";
 
 export default function CenterFeed({ 
         user,
         tweets, 
         setTweets, 
         handleProfileClick,
-        toggleLike
+        toggleLike,
+        setShowPostsReplyPage,
+        showPostsReplyPage,
+        showHomepage,
+        
     }) 
 {
+    const [showLatestPosts, setShowLatestPosts] = useState(false)
+    const [selectedTweetId, setSelectedTweetId] = useState(null);
 
     useEffect(() => {
         const tweetsQuerry = query(collection(firestore, 'tweets'), orderBy('timestamp', 'desc'));
@@ -28,52 +35,76 @@ export default function CenterFeed({
 
     const renderLatestTweets = () => {
         return tweets.slice(0, 5).map(tweet => (
-            <TweetContainer 
-                key={tweet.timestamp}
-                tweets={tweets}
-                profileImg={tweet.profileImgUrl}
-                username={tweet.username}
-                tag={tweet.tagname}
-                timestamp={tweet.timestamp}
-                text={tweet.userMessage}
-                tweetLikes={tweet.likes}
-                tweetId={tweet.tweetId}
-                imagesUrl={tweet.imagesUrl}
-                userId={tweet.userId}
-                handleProfileClick={handleProfileClick}
-                toggleLike={toggleLike}
-            />
+            <div key={tweet.timestamp}
+                 onClick={() => handleTweetClick(tweet.tweetId)}>
+                <TweetContainer 
+                    tweets={tweets}
+                    profileImg={tweet.profileImgUrl}
+                    username={tweet.username}
+                    tag={tweet.tagname}
+                    timestamp={tweet.timestamp}
+                    text={tweet.userMessage}
+                    tweetLikes={tweet.likes}
+                    tweetId={tweet.tweetId}
+                    imagesUrl={tweet.imagesUrl}
+                    userId={tweet.userId}
+                    handleProfileClick={handleProfileClick}
+                    toggleLike={toggleLike}
+                    
+                />
+            </div>
         ));
     };
+
+    const toggleLatestPosts = () => {
+        showLatestPosts ? setShowLatestPosts(false) : setShowLatestPosts(true);
+    }
+
+    const handleTweetClick = (tweetId) => {
+        setSelectedTweetId(tweetId);
+        setShowPostsReplyPage(true);
+    }
 
     return (
         <div id="center-feed" className="relative border-x border-gray-300 text-black w-full md:w-5/6 lg:w-4/6">
             <div className="flex border-b h-20 bg-color-default sticky top-0">
-                <p className="w-fit h-fit ml-5 mt-2 font-bold text-lg cursor-pointer">Home</p>
+                <p onClick={() => showHomepage()}
+                   className="w-full cursor-pointer w-fit h-fit ml-5 mt-2 font-bold text-lg cursor-pointer">
+                    Home
+                </p>
             </div>
-            <div id="latestTweets" className="border-2 border-red-200 mb-10 shadow-xl">
-                <h1 className="font-bold text-center pt-4">LATEST POSTS</h1>
+            <h1 onClick={() => toggleLatestPosts()}
+                    className={`cursor-pointer font-bold text-center py-5 border-b ${showPostsReplyPage ? 'hidden' : ''}`}>{showLatestPosts ? "HIDE LATEST POST" : "SHOW LATEST POSTS"}</h1>
+            <div id="latestTweets" className={`border-2 border-red-200 mb-10 shadow-xl ${showLatestPosts ? 'block' : 'hidden'}`}>
                 {renderLatestTweets()}
             </div>
-            {tweets
+            {showPostsReplyPage ? (
+                <TweetRepliesPage 
+                    selectedTweetId={selectedTweetId}
+                    handleProfileClick={handleProfileClick}
+                    toggleLike={toggleLike}
+                    tweets={tweets} />
+            ) : (
+                tweets
                 .filter(tweet => tweet.userId === user.uid)
                 .map(filteredTweets => (
-                    <TweetContainer 
-                        key={filteredTweets.timestamp}
-                        tweets={tweets}
-                        profileImg={filteredTweets.profileImgUrl}
-                        username={filteredTweets.username}
-                        tag={filteredTweets.tagname}
-                        timestamp={filteredTweets.timestamp}
-                        text={filteredTweets.userMessage}
-                        tweetLikes={filteredTweets.likes}
-                        tweetId={filteredTweets.tweetId}
-                        imagesUrl={filteredTweets.imagesUrl}
-                        userId={filteredTweets.userId}
-                        handleProfileClick={handleProfileClick}
-                        toggleLike={toggleLike}
-                    />
-            ))}
+                    <div key={filteredTweets.timestamp} onClick={() => handleTweetClick(filteredTweets.tweetId)}  >
+                        <TweetContainer 
+                            tweets={tweets}
+                            profileImg={filteredTweets.profileImgUrl}
+                            username={filteredTweets.username}
+                            tag={filteredTweets.tagname}
+                            timestamp={filteredTweets.timestamp}
+                            text={filteredTweets.userMessage}
+                            tweetLikes={filteredTweets.likes}
+                            tweetId={filteredTweets.tweetId}
+                            imagesUrl={filteredTweets.imagesUrl}
+                            userId={filteredTweets.userId}
+                            handleProfileClick={handleProfileClick}
+                            toggleLike={toggleLike}
+                        />
+                    </div>
+                )))}
         </div>
     )
 };

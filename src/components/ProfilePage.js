@@ -6,14 +6,17 @@ import { FollowersPage } from "./FollowersPage";
 
 export default function ProfilePage({ 
     setShowProfilePage, 
+    userDetails,
     viewedUserDetails,
     tweets,
     handleProfileClick,
     toggleLike,
-    toggleFollowBtn
+    toggleFollowBtn,
+    showHomepage
     }) {
 
-    const [displayFollowersPage, setDisplayFollowersPage] = useState(true);
+    const [displayFollowersPage, setDisplayFollowersPage] = useState(false);
+    const [activeTab, setActiveTab] = useState("followers");
    
     return (
         <div id="profileContainer" className="relative border-x border-gray-300 text-black w-full md:w-5/6 lg:w-4/6">
@@ -21,14 +24,22 @@ export default function ProfilePage({
                 setShowProfilePage={setShowProfilePage} 
                 viewedUserDetails={viewedUserDetails}
                 displayFollowersPage={displayFollowersPage}
-                setDisplayFollowersPage={setDisplayFollowersPage} />
+                setDisplayFollowersPage={setDisplayFollowersPage}
+                showHomepage={showHomepage} 
+            />
             {displayFollowersPage ? (
-                <FollowersPage viewedUserDetails={viewedUserDetails} /> 
+                <FollowersPage 
+                    handleProfileClick={handleProfileClick}
+                    viewedUserDetails={viewedUserDetails}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab} /> 
              ) : (
                 <>
                     <ProfileMain 
                     viewedUserDetails={viewedUserDetails} 
-                    toggleFollowBtn={toggleFollowBtn} />
+                    toggleFollowBtn={toggleFollowBtn}
+                    setActiveTab={setActiveTab}
+                    setDisplayFollowersPage={setDisplayFollowersPage} />
                     <ProfileMenu 
                         viewedUserDetails={viewedUserDetails} 
                         handleProfileClick={handleProfileClick}

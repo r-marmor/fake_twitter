@@ -16,7 +16,8 @@ function App() {
     showPostForm: false,
     showCreateAccountForm: false,
     showLoginForm: false,
-    showProfilePage: false
+    showProfilePage: false,
+    showPostsReplyPage: false
   });
 
   // Application states
@@ -32,9 +33,17 @@ function App() {
     setIsProfileLoading(true);
 
     const userDetails = await getUserDetails(userId)
+
     setViewedUserDetails(userDetails);
-    
     setIsProfileLoading(false);
+  }
+
+  const showHomepage = () => {
+    setUiState(prev => ({
+      ...prev,
+      showProfilePage: false,
+      showPostsReplyPage: false
+    }))
   }
 
   return (
@@ -44,14 +53,16 @@ function App() {
       user ? (
           <Homepage
             user={user}
+            userDetails={userDetails}
             tweets={tweets}
             setTweets={setTweets}
             showProfilePage={uiState.showProfilePage}
             setShowProfilePage={(state) => setUiState(prev => ({...prev, showProfilePage: state}))}
             handleProfileClick={handleProfileClick}
-            userDetails={userDetails}
             showPostForm={uiState.showPostForm}
             setShowPostForm={(state) => setUiState(prev => ({...prev, showPostForm: state}))}
+            showPostsReplyPage={uiState.showPostsReplyPage}
+            setShowPostsReplyPage={(state) => setUiState(prev => ({...prev, showPostsReplyPage: state}))}
             viewedUserDetails={viewedUserDetails}
             images={images}
             setImages={setImages}
@@ -59,6 +70,7 @@ function App() {
             setUserMessage={setUserMessage}
             toggleLike={toggleLike}
             toggleFollowBtn={toggleFollowBtn}
+            showHomepage={showHomepage}
           />
         ) : (
           <UnloggedPage

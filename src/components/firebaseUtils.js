@@ -10,8 +10,10 @@ export const getUserDetails = async (userId) => {
 
 
 // Toggles the like status of a tweet and updates the corresponding user's liked tweets.
-export const toggleLike = async (tweetId, userId, tweets) => {
-    const tweetDocRef = doc(firestore, 'tweets', tweetId);
+export const toggleLike = async (event, tweetId, userId, tweets) => {
+    event.stopPropagation();
+  
+  const tweetDocRef = doc(firestore, 'tweets', tweetId);
     const userDocRef = doc(firestore, 'users', userId);
 
     const tweetIndex = tweets.findIndex(tweet => tweet.tweetId === tweetId);
@@ -49,7 +51,7 @@ export const toggleLike = async (tweetId, userId, tweets) => {
 
 
   // Toggles the follow status between the current user and the viewed user.
-export const toggleFollowBtn = async (currentUserId, viewedUserId) => {
+export const toggleFollowBtn = async (currentUserId, viewedUserId, updateLocalState) => {
     const userDocRef = doc(firestore, 'users', currentUserId);
     const viewedUserDocRef = doc(firestore, 'users', viewedUserId);
   
@@ -75,6 +77,15 @@ export const toggleFollowBtn = async (currentUserId, viewedUserId) => {
         followers: arrayUnion(currentUserId)
       });
     }
-  
-    return hasFollowed;
+    
+    updateLocalState(!hasFollowed);
+    return !hasFollowed;
   };
+
+
+  export const toggleAnswerBtn = async (event, tweetId, userId) => {
+    event.stopPropagation();
+
+    
+  
+  }
