@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import TweetContainer from "./TweetContainer";
-import { firestore } from "../firebase";
+
+import { firestore } from "../firebase/firebase";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { TweetRepliesPage } from "./TweetRepliesPage";
+
+import TweetContainer from "./tweets/TweetContainer";
+import {TweetRepliesPage}  from "./tweets/TweetRepliesPage";
+
 
 export default function CenterFeed({ 
         user,
@@ -13,12 +16,19 @@ export default function CenterFeed({
         setShowPostsReplyPage,
         showPostsReplyPage,
         showHomepage,
-        
+        selectedTweetId,
+        setSelectedTweetId,
+        tweetData,
+        setTweetData,
+        fetchTweetData,
+        showPostForm,
+        setShowPostForm,
+        showReplyForm,
+        setShowReplyForm
     }) 
 {
     const [showLatestPosts, setShowLatestPosts] = useState(false)
-    const [selectedTweetId, setSelectedTweetId] = useState(null);
-
+    
     useEffect(() => {
         const tweetsQuerry = query(collection(firestore, 'tweets'), orderBy('timestamp', 'desc'));
 
@@ -34,7 +44,7 @@ export default function CenterFeed({
     }, []);
 
     const renderLatestTweets = () => {
-        return tweets.slice(0, 5).map(tweet => (
+        return tweets.slice(0, 2).map(tweet => (
             <div key={tweet.timestamp}
                  onClick={() => handleTweetClick(tweet.tweetId)}>
                 <TweetContainer 
@@ -50,7 +60,10 @@ export default function CenterFeed({
                     userId={tweet.userId}
                     handleProfileClick={handleProfileClick}
                     toggleLike={toggleLike}
-                    
+                    tweetData={tweetData}
+                    fetchTweetData={fetchTweetData}
+                    setShowPostForm={setShowPostForm}
+                    setShowReplyForm={setShowReplyForm}
                 />
             </div>
         ));
@@ -83,12 +96,18 @@ export default function CenterFeed({
                     selectedTweetId={selectedTweetId}
                     handleProfileClick={handleProfileClick}
                     toggleLike={toggleLike}
-                    tweets={tweets} />
+                    tweets={tweets}
+                    tweetData={tweetData}
+                    setTweetData={setTweetData}
+                    fetchTweetData={fetchTweetData}
+                />
             ) : (
                 tweets
                 .filter(tweet => tweet.userId === user.uid)
                 .map(filteredTweets => (
-                    <div key={filteredTweets.timestamp} onClick={() => handleTweetClick(filteredTweets.tweetId)}  >
+                    <div key={filteredTweets.timestamp} 
+                        onClick={() => handleTweetClick(filteredTweets.tweetId)}
+                     >
                         <TweetContainer 
                             tweets={tweets}
                             profileImg={filteredTweets.profileImgUrl}
@@ -102,6 +121,12 @@ export default function CenterFeed({
                             userId={filteredTweets.userId}
                             handleProfileClick={handleProfileClick}
                             toggleLike={toggleLike}
+                            tweetData={tweetData}
+                            fetchTweetData={fetchTweetData}
+                            showPostForm={showPostForm}
+                            setShowPostForm={setShowPostForm}
+                            showReplyForm={showReplyForm}
+                            setShowReplyForm={setShowReplyForm}
                         />
                     </div>
                 )))}

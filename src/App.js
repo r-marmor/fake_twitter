@@ -4,8 +4,9 @@ import UnloggedPage from "./components/UnloggedPage";
 import Homepage from "./components/Homepage";
 
 // Firebase imports
-import { useAuth } from "./components/useAuth";
-import { getUserDetails, toggleFollowBtn, toggleLike } from "./components/firebaseUtils";
+import { useAuth } from "./hooks/useAuth";
+import { getUserDetails, toggleFollowBtn, toggleLike } from "./firebase/firebaseUtils";
+import { Overlay } from "./components/Overlay";
 
 
 function App() {
@@ -17,13 +18,15 @@ function App() {
     showCreateAccountForm: false,
     showLoginForm: false,
     showProfilePage: false,
-    showPostsReplyPage: false
+    showPostsReplyPage: false,
+    showReplyForm: false
   });
 
   // Application states
   const [userMessage, setUserMessage] = useState('');
   const [images, setImages] = useState([]);
   const [tweets, setTweets] = useState([]);
+  const [tweetData, setTweetData] = useState(null);
   const [viewedUserDetails, setViewedUserDetails] = useState(null);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
 
@@ -46,42 +49,65 @@ function App() {
     }))
   }
 
+  const homepageComponent = (
+    <Homepage
+      user={user}
+      userDetails={userDetails}
+      tweets={tweets}
+      setTweets={setTweets}
+      showProfilePage={uiState.showProfilePage}
+      setShowProfilePage={(state) => setUiState(prev => ({...prev, showProfilePage: state}))}
+      handleProfileClick={handleProfileClick}
+      showPostForm={uiState.showPostForm}
+      setShowPostForm={(state) => setUiState(prev => ({...prev, showPostForm: state}))}
+      showPostsReplyPage={uiState.showPostsReplyPage}
+      setShowPostsReplyPage={(state) => setUiState(prev => ({...prev, showPostsReplyPage: state}))}
+      showReplyForm={uiState.showReplyForm}
+      setShowReplyForm={(state) => setUiState(prev => ({...prev, showReplyForm: state}))}
+      viewedUserDetails={viewedUserDetails}
+      images={images}
+      setImages={setImages}
+      userMessage={userMessage}
+      setUserMessage={setUserMessage}
+      toggleLike={toggleLike}
+      toggleFollowBtn={toggleFollowBtn}
+      showHomepage={showHomepage}
+      tweetData={tweetData}
+      setTweetData={setTweetData}
+    />
+  );
+
   return (
     isProfileLoading ? (
       <div>Loading spinner...</div>
     ) : (
       user ? (
-          <Homepage
-            user={user}
-            userDetails={userDetails}
-            tweets={tweets}
-            setTweets={setTweets}
-            showProfilePage={uiState.showProfilePage}
-            setShowProfilePage={(state) => setUiState(prev => ({...prev, showProfilePage: state}))}
-            handleProfileClick={handleProfileClick}
-            showPostForm={uiState.showPostForm}
-            setShowPostForm={(state) => setUiState(prev => ({...prev, showPostForm: state}))}
-            showPostsReplyPage={uiState.showPostsReplyPage}
-            setShowPostsReplyPage={(state) => setUiState(prev => ({...prev, showPostsReplyPage: state}))}
-            viewedUserDetails={viewedUserDetails}
-            images={images}
-            setImages={setImages}
-            userMessage={userMessage}
-            setUserMessage={setUserMessage}
-            toggleLike={toggleLike}
-            toggleFollowBtn={toggleFollowBtn}
-            showHomepage={showHomepage}
-          />
-        ) : (
-          <UnloggedPage
-            showCreateAccountForm={uiState.showCreateAccountForm}
-            setShowCreateAccountForm={(state) => setUiState(prev => ({...prev, showCreateAccountForm: state}))}
-            showLoginForm={uiState.showLoginForm}
-            setShowLoginForm={(state) => setUiState(prev => ({...prev, showLoginForm: state}))}
-          />
-        )
+        uiState.showPostForm || uiState.showReplyForm ? (
+          <Overlay  show={uiState.showPostForm || uiState.showReplyForm}
+                    showPostForm={uiState.showPostForm}
+                    showReplyForm={uiState.showReplyForm}
+                    setShowReplyForm={(state) => setUiState(prev => ({...prev, showReplyForm: state}))}
+                    images={images}
+                    setImages={setImages}
+                    setShowPostForm={(state) => setUiState(prev => ({...prev, showPostForm: state}))}
+                    userMessage={userMessage}
+                    setUserMessage={setUserMessage}
+                    tweetData={tweetData}                    
+          >
+            {homepageComponent}
+          </Overlay>
+        ) :
+        homepageComponent
+      ) : (
+        <UnloggedPage
+          showCreateAccountForm={uiState.showCreateAccountForm}
+          setShowCreateAccountForm={(state) => setUiState(prev => ({...prev, showCreateAccountForm: state}))}
+          showLoginForm={uiState.showLoginForm}
+          setShowLoginForm={(state) => setUiState(prev => ({...prev, showLoginForm: state}))}
+        />
       )
-    );
+    )
+  );
 }
 
 export default App;

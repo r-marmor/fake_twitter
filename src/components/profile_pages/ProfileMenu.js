@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import TweetContainer from "../TweetContainer";
+import TweetContainer from "../tweets/TweetContainer";
 
 export function ProfileMenu({ 
     tweets, 

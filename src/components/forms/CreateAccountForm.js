@@ -1,6 +1,6 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
-import { auth, createUserWithEmailAndPassword, firestore, storage } from "../../firebase";
+import { auth, createUserWithEmailAndPassword, firestore, storage } from "../../firebase/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default function CreateAccountForm({ 

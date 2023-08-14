@@ -1,5 +1,5 @@
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
-import { firestore } from "../firebase";
+import { firestore } from "./firebase";
 
 
 export const getUserDetails = async (userId) => {
@@ -81,11 +81,3 @@ export const toggleFollowBtn = async (currentUserId, viewedUserId, updateLocalSt
     updateLocalState(!hasFollowed);
     return !hasFollowed;
   };
-
-
-  export const toggleAnswerBtn = async (event, tweetId, userId) => {
-    event.stopPropagation();
-
-    
-  
-  }

@@ -1,7 +1,10 @@
+import { useState } from "react";
 import CenterFeed from "./CenterFeed";
 import Menu from "./Menu";
-import ProfilePage from "./ProfilePage";
+import ProfilePage from "./profile_pages/ProfilePage";
 import Sidebar from "./Sidebar";
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from "../firebase/firebase";
 
 export default function Homepage({
     user,
@@ -23,12 +26,33 @@ export default function Homepage({
     setUserMessage,
     toggleLike,
     toggleFollowBtn,
-    showHomepage
+    showHomepage,
+    showReplyForm,
+    setShowReplyForm,
+    tweetData,
+    setTweetData
     }) 
 {
+    const [selectedTweetId, setSelectedTweetId] = useState(null);
+    const [isLoading, setIsLoading] = useState(false); // à remonter dans app.js
+
+    async function fetchTweetData(tweetId) {
+        setIsLoading(true);
+
+        const tweetRef = doc(firestore, 'tweets', tweetId);
+        const tweetSnapshot = await getDoc(tweetRef);
+        if (tweetSnapshot.exists()) {
+            setTweetData(tweetSnapshot.data());
+            setSelectedTweetId(tweetId);
+
+        } else {
+            console.log("no such document");
+        }
+        setIsLoading(false);
+    }
 
       return (
-            <div id="main_page" className="container mx-auto min-h-screen flex">
+            <div id="main_page" className={`container mx-auto min-h-screen ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
                 <Menu 
                 userDetails={userDetails}
                 showPostForm={showPostForm}
@@ -41,6 +65,7 @@ export default function Homepage({
                 showProfilePage={showProfilePage}
                 setShowProfilePage={setShowProfilePage}
                 showHomepage={showHomepage}
+                showReplyForm={showReplyForm}
                 />
                 {showProfilePage ? (
                     <ProfilePage
@@ -56,17 +81,25 @@ export default function Homepage({
                     />
                 ) : (
                     <CenterFeed
-                    user={user}
-                    tweets={tweets}
-                    setTweets={setTweets}
-                    userDetails={userDetails}
-                    handleProfileClick={handleProfileClick}
-                    toggleLike={toggleLike}
-                    setShowPostsReplyPage={setShowPostsReplyPage}  
-                    showPostsReplyPage={showPostsReplyPage}
-                    showHomepage={showHomepage}
-                    
-                />
+                        user={user}
+                        tweets={tweets}
+                        setTweets={setTweets}
+                        userDetails={userDetails}
+                        handleProfileClick={handleProfileClick}
+                        toggleLike={toggleLike}
+                        setShowPostsReplyPage={setShowPostsReplyPage}  
+                        showPostsReplyPage={showPostsReplyPage}
+                        showHomepage={showHomepage}
+                        setSelectedTweetId={setSelectedTweetId}
+                        selectedTweetId={selectedTweetId}
+                        tweetData={tweetData}
+                        setTweetData={setTweetData}
+                        fetchTweetData={fetchTweetData}
+                        showPostForm={showPostForm}
+                        setShowPostForm={setShowPostForm}
+                        showReplyForm={showReplyForm}
+                        setShowReplyForm={setShowReplyForm}
+                    />
                 )}
                 <Sidebar />
             </div>   

@@ -1,5 +1,5 @@
 import TweetMenu from "./TweetMenu";
-import PropertiesBtn from "./buttons/PropertiesBtn";
+import PropertiesBtn from "../buttons/PropertiesBtn";
 
 export default function TweetContainer({
     profileImg, 
@@ -14,7 +14,14 @@ export default function TweetContainer({
     handleProfileClick,
     toggleLike,
     tweets,
-    
+    tweetData,
+    isTextareaFocused,
+    setIsTextareaFocused,
+    fetchTweetData,
+    showPostForm,
+    setShowPostForm,
+    showReplyForm,
+    setShowReplyForm
     }) 
 {
     return (
@@ -42,7 +49,20 @@ export default function TweetContainer({
                             </div>
                             <p>{text}</p>
                         </div>
-                        <TweetMenu tweetLikes={tweetLikes} toggleLike={toggleLike} tweetId={tweetId} tweets={tweets} />
+                        <TweetMenu 
+                            tweetLikes={tweetLikes} 
+                            toggleLike={toggleLike} 
+                            tweetId={tweetId} 
+                            tweets={tweets}
+                            tweetData={tweetData}
+                            isTextareaFocused={isTextareaFocused}
+                            setIsTextareaFocused={setIsTextareaFocused}
+                            fetchTweetData={fetchTweetData}
+                            showPostForm={showPostForm}
+                            setShowPostForm={setShowPostForm}
+                            showReplyForm={showReplyForm}
+                            setShowReplyForm={setShowReplyForm}
+                        />
                     </div>
                 </div> 
             </div>

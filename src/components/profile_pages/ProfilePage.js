@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { ProfileHeader } from "./ProfilePageComponents/ProfileHeader";
-import { ProfileMain } from "./ProfilePageComponents/ProfileMain";
-import { ProfileMenu } from "./ProfilePageComponents/ProfileMenu";
-import { FollowersPage } from "./FollowersPage";
+import { ProfileHeader } from "./ProfileHeader";
+import { ProfileMain } from "./ProfileMain";
+import { ProfileMenu } from "./ProfileMenu";
+import { FollowersPage } from "../FollowersPage";
 
 export default function ProfilePage({ 
     setShowProfilePage, 

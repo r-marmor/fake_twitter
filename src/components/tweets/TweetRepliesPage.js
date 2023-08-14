@@ -1,54 +1,53 @@
-import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore"
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore"
 import { useEffect, useState } from "react"
-import { firestore } from "../firebase"
-import TweetContainer from "./TweetContainer";
-import { useAuth } from "./useAuth";
-import { TweetReplyForm } from "./TweetReplyForm";
 
-export function TweetRepliesPage( {selectedTweetId, tweets, handleProfileClick, toggleLike} ) {
-    const [tweetData, setTweetData] = useState(null)
+import TweetContainer from "./TweetContainer";
+
+import { TweetReplyForm } from "./TweetReplyForm";
+import { firestore } from "../../firebase/firebase";
+import { useAuth } from "../../hooks/useAuth";
+
+export function TweetRepliesPage({
+    selectedTweetId,
+    tweets, 
+    handleProfileClick, 
+    toggleLike,
+    tweetData,
+    fetchTweetData
+}) {
+    
     const [replies, setReplies] = useState([]);
     const [user, userDetails] = useAuth();
     const [isTextareaFocused, setIsTextareaFocused] = useState(false);
-    const [isLoadingReplies, setIsLoadingReplies] = useState(false);
 
     useEffect(() => {
         if (selectedTweetId) {
-            const fetchData = async () => {
-                const tweetRef = doc(firestore, 'tweets', selectedTweetId);
-                const tweetSnapshot = await getDoc(tweetRef);
-                if (tweetSnapshot.exists()) {
-                    setTweetData(tweetSnapshot.data());
-                } else {
-                    console.log("no such document");
-                }
-            }
-            fetchData();
+            fetchTweetData(selectedTweetId)
         }
-    }, [selectedTweetId]);
+    }, [selectedTweetId, fetchTweetData]);
 
     useEffect(() => {
-        const fetchReplies = async () => {
-            setIsLoadingReplies(true);
-
+        const fetchReplies = () => {
             const repliesQuery = query(
                 collection(firestore, 'replies'),
                 where('parentTweetId', '==', selectedTweetId),
                 orderBy('timestamp', 'desc')
             );
-            const querySnapshot = await getDocs(repliesQuery);
-            const fetchedReplies = querySnapshot.docs.map(doc => doc.data());
-            
-            setReplies(fetchedReplies);
-            setIsLoadingReplies(false);
+            const unsubscribe = onSnapshot(repliesQuery, (querySnapshot) => {
+                const fetchedReplies = querySnapshot.docs.map(doc => doc.data());
+                setReplies(fetchedReplies);
+            });
+
+            return () => unsubscribe();
         }
         fetchReplies();
 
     }, [selectedTweetId]);
 
+
     return (
         <>
-            {tweetData ? (
+            {tweetData && (
                 <TweetContainer 
                     profileImg={tweetData.profileImgUrl}
                     username={tweetData.username}
@@ -62,29 +61,27 @@ export function TweetRepliesPage( {selectedTweetId, tweets, handleProfileClick, 
                     handleProfileClick={handleProfileClick}
                     toggleLike={toggleLike}
                     tweets={tweets}
+                    tweetData={tweetData}
+                    isTextareaFocused={isTextareaFocused}
+                    setIsTextareaFocused={setIsTextareaFocused}
+                    fetchTweetData={fetchTweetData}
                 />
-            ) : (
-                <p>Loading...</p>
             )}
             {tweetData && (
                 <div className="flex items-start bg-slate-200 gap-5 px-4 py-4 border-b border-gray-200">
                     <TweetReplyForm 
+                        mode="reply"
                         user={user}
                         userDetails={userDetails}
                         isTextareaFocused={isTextareaFocused}
                         tweetData={tweetData}
-                        // parentTweetId={tweetData.tweetId}
+                        parentTweetId={tweetData.tweetId}
                         setIsTextareaFocused={setIsTextareaFocused}
                     />
                 </div>
             )}
-            <div>
-                {isLoadingReplies ? (
-                    <div className="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full" role="status" aria-label="loading">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                ) : (
-                    replies.map(reply => (
+                <div>
+                    {replies.map(reply => (
                         <TweetContainer
                             key={reply.timestamp} 
                             tweets={tweets}
@@ -99,10 +96,10 @@ export function TweetRepliesPage( {selectedTweetId, tweets, handleProfileClick, 
                             userId={reply.userId}
                             handleProfileClick={handleProfileClick}
                             toggleLike={toggleLike}
+                            fetchTweetData={fetchTweetData}
                         />
-                    ))
-                )}
-            </div>
+                    ))}
+                </div>
         </>
     )
 }

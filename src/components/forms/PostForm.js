@@ -1,9 +1,16 @@
 import { useState } from "react"
-import { auth, firestore, storage } from "../../firebase";
+import { auth, firestore, storage } from "../../firebase/firebase";
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-export default function PostForm( { setShowPostForm, images, setImages, userMessage, setUserMessage } ) {
+export default function PostForm({ 
+    showPostForm,
+    setShowPostForm, 
+    images, 
+    setImages, 
+    userMessage, 
+    setUserMessage 
+}) {
     const [errorUploadMsg, setErrorUploadMessage] = useState('');
 
     const handleSubmit = async (e) => {
@@ -66,13 +73,13 @@ export default function PostForm( { setShowPostForm, images, setImages, userMess
     };
     
     return (
-        <div className={`w-screen h-screen flex flex-col items-center justify-center px-5 py-10 z-20 md:absolute md:border md:top-0 md:inset-x-1/3 md:mt-48 md:rounded-lg bg-slate-200 text-white md:w-1/2 md:h-48 md:px-4`}>
+        <div className={`flex flex-col items-center justify-center px-5 py-5 z-20 md:absolute md:border md:top-0 md:inset-x-1/3 md:mt-48 md:rounded-lg bg-slate-200 text-white md:w-1/2 md:px-4 ${showPostForm ? 'flex md:absolute' : 'hidden' }`}>
                 {/* Close button */}
                 <button className="absolute top-2 left-3 hover:bg-slate-100 rounded-full" 
                         onClick={() => setShowPostForm(false)}
                 >
-                    <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 8L8 16M8.00001 8L16 16" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 8L8 16M8.00001 8L16 16" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </button>
                 <form onSubmit={handleSubmit} className="w-full bg-slate-200 p-4 rounded-lg">
@@ -87,20 +94,20 @@ export default function PostForm( { setShowPostForm, images, setImages, userMess
                     </div>
                     <div className="flex flex-col mb-4">
                         <input
-                        name="images"
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        onChange={e => {
-                            if (e.target.files) {
-                                if (images.length + e.target.files.length > 2) {
-                                    setErrorUploadMessage('You can only upload up to 2 images')
-                                    return;
+                            name="images"
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            onChange={e => {
+                                if (e.target.files) {
+                                    if (images.length + e.target.files.length > 2) {
+                                        setErrorUploadMessage('You can only upload up to 2 images')
+                                        return;
+                                    }
+                                    setImages(prevImages => [...prevImages, ...Array.from(e.target.files)]);
                                 }
-                                setImages(prevImages => [...prevImages, ...Array.from(e.target.files)]);
-                            }
-                        }}
-                        className="text-gray-700"
+                            }}
+                            className="text-gray-700"
                         />
                         <div className="flex gap-2 mt-2">
                             {images.map((image, index) => (

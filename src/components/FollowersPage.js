@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { doc, getDoc } from "firebase/firestore"
-import { firestore } from "../firebase";
+import { firestore } from "../firebase/firebase";
 
 export function FollowersPage( {viewedUserDetails, handleProfileClick, activeTab, setActiveTab} ) {
     const [followersDetails, setFollowersDetails] = useState([]);
