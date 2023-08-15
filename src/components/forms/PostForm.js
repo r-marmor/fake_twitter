@@ -73,7 +73,8 @@ export default function PostForm({
     };
     
     return (
-        <div className={`flex flex-col items-center justify-center px-5 py-5 z-20 md:absolute md:border md:top-0 md:inset-x-1/3 md:mt-48 md:rounded-lg bg-slate-200 text-white md:w-1/2 md:px-4 ${showPostForm ? 'flex md:absolute' : 'hidden' }`}>
+        <>
+        <div className={`md:flex flex-col items-center justify-center px-5 py-5 mt-5 z-50 absolute w-full md:border md:top-0 md:inset-x-1/3 md:mt-48 md:rounded-lg bg-slate-200 text-white md:w-1/2 md:px-4 ${showPostForm ? 'flex md:absolute' : 'hidden' }`}>
                 {/* Close button */}
                 <button className="absolute top-2 left-3 hover:bg-slate-100 rounded-full" 
                         onClick={() => setShowPostForm(false)}
@@ -131,5 +132,9 @@ export default function PostForm({
                     </div>
                 </form>
         </div>
+        <div className="md:hidden absolute z-20 bg-slate-200 h-screen w-screen">
+            
+        </div>
+        </>
     )
 }

@@ -6,7 +6,6 @@ export default function UnloggedPage({
     setShowCreateAccountForm,
     showLoginForm = false,
     setShowLoginForm,
-    handleNewUserDetails
     }) 
 {
 

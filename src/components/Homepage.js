@@ -52,20 +52,11 @@ export default function Homepage({
     }
 
       return (
-            <div id="main_page" className={`container mx-auto min-h-screen ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
+            <div id="main_page" className={`w-full min-h-screen ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
                 <Menu 
-                userDetails={userDetails}
-                showPostForm={showPostForm}
-                setShowPostForm={setShowPostForm}
-                handleProfileClick={handleProfileClick}
-                images={images}
-                setImages={setImages}
-                userMessage={userMessage}
-                setUserMessage={setUserMessage}
-                showProfilePage={showProfilePage}
-                setShowProfilePage={setShowProfilePage}
-                showHomepage={showHomepage}
-                showReplyForm={showReplyForm}
+                    setShowPostForm={setShowPostForm}
+                    handleProfileClick={handleProfileClick}
+                    showHomepage={showHomepage}
                 />
                 {showProfilePage ? (
                     <ProfilePage
