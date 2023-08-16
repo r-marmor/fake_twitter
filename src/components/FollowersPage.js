@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { doc, getDoc } from "firebase/firestore"
 import { firestore } from "../firebase/firebase";
 
-export function FollowersPage( {viewedUserDetails, handleProfileClick, activeTab, setActiveTab} ) {
+export function FollowersPage( {viewedUserDetails, handleProfileClick, profileActiveTab, setProfileActiveTab} ) {
     const [followersDetails, setFollowersDetails] = useState([]);
     const [followingDetails, setFollowingDetails] = useState([]);
 
@@ -36,20 +36,20 @@ export function FollowersPage( {viewedUserDetails, handleProfileClick, activeTab
         <>
             <div className="flex w-full border">
                 <div 
-                    onClick={() => setActiveTab("followers")}
+                    onClick={() => setProfileActiveTab("followers")}
                     className="relative flex justify-center items-center h-12 w-1/2 hover:bg-green-100 hover:text-green-500">
                     <span className="text-gray-400 font-bold ">Followers</span>
-                    <div className={`bottom-0 h-1 w-20 bg-green-500 rounded-full ${activeTab === 'followers' ? 'absolute' : 'hidden'}`}></div>
+                    <div className={`bottom-0 h-1 w-20 bg-green-500 rounded-full ${profileActiveTab === 'followers' ? 'absolute' : 'hidden'}`}></div>
                 </div>
                 <div 
-                    onClick={() => setActiveTab("following")}
+                    onClick={() => setProfileActiveTab("following")}
                     className="relative flex justify-center items-center h-12 w-1/2 hover:bg-green-100 hover:text-green-500">
                     <span className="text-gray-400 font-bold">Following</span>
-                    <div className={`bottom-0 h-1 w-20 bg-green-500 rounded-full ${activeTab === 'following' ? 'absolute' : 'hidden'}`}></div>
+                    <div className={`bottom-0 h-1 w-20 bg-green-500 rounded-full ${profileActiveTab === 'following' ? 'absolute' : 'hidden'}`}></div>
                 </div>
             </div>
             <div id="followers-following-details">
-                { activeTab === "followers" ?
+                { profileActiveTab === "followers" ?
                     followersDetails.map(follower => (
                         <div key={follower.userId} className="flex px-3 py-5 gap-2 items-center border-b">
                             <img 

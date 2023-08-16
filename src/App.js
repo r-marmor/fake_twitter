@@ -7,11 +7,13 @@ import Homepage from "./components/Homepage";
 import { useAuth } from "./hooks/useAuth";
 import { getUserDetails, toggleFollowBtn, toggleLike } from "./firebase/firebaseUtils";
 import { Overlay } from "./components/Overlay";
+import { useFetchPosts } from "./hooks/useFetchPosts";
 
 
 function App() {
-  // User state
+  // Hooks
   const [user, userDetails] = useAuth();
+  const [postsData, mockedData, fetchPostsData] = useFetchPosts();
 
   const [uiState, setUiState] = useState({
     showPostForm: false,
@@ -25,8 +27,6 @@ function App() {
   // Application states
   const [userMessage, setUserMessage] = useState('');
   const [images, setImages] = useState([]);
-  const [tweets, setTweets] = useState([]);
-  const [tweetData, setTweetData] = useState(null);
   const [viewedUserDetails, setViewedUserDetails] = useState(null);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
 
@@ -53,8 +53,6 @@ function App() {
     <Homepage
       user={user}
       userDetails={userDetails}
-      tweets={tweets}
-      setTweets={setTweets}
       showProfilePage={uiState.showProfilePage}
       setShowProfilePage={(state) => setUiState(prev => ({...prev, showProfilePage: state}))}
       handleProfileClick={handleProfileClick}
@@ -72,8 +70,9 @@ function App() {
       toggleLike={toggleLike}
       toggleFollowBtn={toggleFollowBtn}
       showHomepage={showHomepage}
-      tweetData={tweetData}
-      setTweetData={setTweetData}
+      postsData={postsData}
+      mockedData={mockedData}
+      fetchPostsData={fetchPostsData}
     />
   );
 
@@ -92,7 +91,7 @@ function App() {
                     setShowPostForm={(state) => setUiState(prev => ({...prev, showPostForm: state}))}
                     userMessage={userMessage}
                     setUserMessage={setUserMessage}
-                    tweetData={tweetData}                    
+                    postsData={postsData}                    
           >
             {homepageComponent}
           </Overlay>

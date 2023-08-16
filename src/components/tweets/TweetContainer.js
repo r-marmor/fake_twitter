@@ -2,22 +2,22 @@ import TweetMenu from "./TweetMenu";
 import PropertiesBtn from "../buttons/PropertiesBtn";
 
 export default function TweetContainer({
-    profileImg, 
+    profileImgUrl, 
     username, 
-    tag, 
+    tagname, 
     timestamp, 
     text,
-    tweetLikes,
-    tweetId,
+    postLikes,
+    postId,
     userId,
     imagesUrl,
     handleProfileClick,
     toggleLike,
-    tweets,
-    tweetData,
+    post,
+    postData,
     isTextareaFocused,
     setIsTextareaFocused,
-    fetchTweetData,
+    fetchPostsData,
     showPostForm,
     setShowPostForm,
     showReplyForm,
@@ -28,13 +28,13 @@ export default function TweetContainer({
         <div className="px-2 pt-4 border-b">
                 <div className="flex">
                     <div className="w-fit">
-                        <img onClick={() => handleProfileClick(userId)} src={profileImg} className="rounded-full w-14 h-14 object-cover cursor-pointer"  alt="profile"></img>
+                        <img onClick={() => handleProfileClick(userId)} src={profileImgUrl} className="rounded-full w-14 h-14 object-cover cursor-pointer"  alt="profile"></img>
                     </div>
                     <div className="flex flex-col gap-1 px-4 w-full">
                         <div className="flex justify-between">
                             <div className="flex gap-2 pt-2">
                                 <p className="font-bold">{username}</p>
-                                <p>@{tag}</p>
+                                <p>@{tagname}</p>
                                 <p className="">{new Date(timestamp).toDateString()}</p>
                             </div>
                             <button className="flex justify-center items-center w-10 h-10 hover:bg-blue-100 hover:rounded-full">
@@ -50,14 +50,14 @@ export default function TweetContainer({
                             <p>{text}</p>
                         </div>
                         <TweetMenu 
-                            tweetLikes={tweetLikes} 
+                            postLikes={postLikes} 
                             toggleLike={toggleLike} 
-                            tweetId={tweetId} 
-                            tweets={tweets}
-                            tweetData={tweetData}
+                            tweetId={postId} 
+                            post={post}
+                            postData={postData}
                             isTextareaFocused={isTextareaFocused}
                             setIsTextareaFocused={setIsTextareaFocused}
-                            fetchTweetData={fetchTweetData}
+                            fetchPostsData={fetchPostsData}
                             showPostForm={showPostForm}
                             setShowPostForm={setShowPostForm}
                             showReplyForm={showReplyForm}

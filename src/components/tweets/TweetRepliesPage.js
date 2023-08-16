@@ -67,19 +67,6 @@ export function TweetRepliesPage({
                     fetchTweetData={fetchTweetData}
                 />
             )}
-            {tweetData && (
-                <div className="flex items-start bg-slate-200 gap-5 px-4 py-4 border-b border-gray-200">
-                    <TweetReplyForm 
-                        mode="reply"
-                        user={user}
-                        userDetails={userDetails}
-                        isTextareaFocused={isTextareaFocused}
-                        tweetData={tweetData}
-                        parentTweetId={tweetData.tweetId}
-                        setIsTextareaFocused={setIsTextareaFocused}
-                    />
-                </div>
-            )}
                 <div>
                     {replies.map(reply => (
                         <TweetContainer
@@ -100,6 +87,19 @@ export function TweetRepliesPage({
                         />
                     ))}
                 </div>
+                {tweetData && (
+                <div className="flex items-start bg-slate-200 gap-5 px-4 py-4 border-b border-gray-200">
+                    <TweetReplyForm 
+                        mode="reply"
+                        user={user}
+                        userDetails={userDetails}
+                        isTextareaFocused={isTextareaFocused}
+                        tweetData={tweetData}
+                        parentTweetId={tweetData.tweetId}
+                        setIsTextareaFocused={setIsTextareaFocused}
+                    />
+                </div>
+            )}
         </>
     )
 }

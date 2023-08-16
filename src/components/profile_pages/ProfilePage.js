@@ -16,7 +16,7 @@ export default function ProfilePage({
     }) {
 
     const [displayFollowersPage, setDisplayFollowersPage] = useState(false);
-    const [activeTab, setActiveTab] = useState("followers");
+    const [profileActiveTab, setProfileActiveTab] = useState("followers");
    
     return (
         <div id="profileContainer" className="relative border-x border-gray-300 text-black w-full md:w-5/6 lg:w-4/6">
@@ -31,14 +31,14 @@ export default function ProfilePage({
                 <FollowersPage 
                     handleProfileClick={handleProfileClick}
                     viewedUserDetails={viewedUserDetails}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab} /> 
+                    profileActiveTab={profileActiveTab}
+                    setProfileActiveTab={setProfileActiveTab} /> 
              ) : (
                 <>
                     <ProfileMain 
                     viewedUserDetails={viewedUserDetails} 
                     toggleFollowBtn={toggleFollowBtn}
-                    setActiveTab={setActiveTab}
+                    setProfileActiveTab={setProfileActiveTab}
                     setDisplayFollowersPage={setDisplayFollowersPage} />
                     <ProfileMenu 
                         viewedUserDetails={viewedUserDetails} 

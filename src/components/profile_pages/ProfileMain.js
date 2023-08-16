@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth"
 export function ProfileMain({ 
         viewedUserDetails, 
         toggleFollowBtn, 
-        setActiveTab, 
+        setProfileActiveTab, 
         setDisplayFollowersPage 
 }) {
     const [user, userDetails] = useAuth();
@@ -24,7 +24,7 @@ export function ProfileMain({
     
     return (
         <div id="profileMainContent">
-            <div id="coverImage" className="border h-48"><img src="#"></img></div>
+            <div id="coverImage" className="border h-48"><img src="cover" alt="cover"></img></div>
             <div className="relative">
                 <img src={viewedUserDetails.profileImgUrl} alt="profile" className="absolute -top-16 ml-5 w-32 h-32 rounded-full object-cover"></img>
                 <button 
@@ -47,13 +47,13 @@ export function ProfileMain({
                     <div className="flex gap-4 text-md text-gray-400">
                         <p
                             onClick={() => {
-                                setActiveTab("following")
+                                setProfileActiveTab("following")
                                 setDisplayFollowersPage(true)
                             }} 
                             className="hover:underline cursor-pointer">{viewedUserDetails.following.length} following</p>
                         <p
                             onClick={() => {
-                                setActiveTab("followers")
+                                setProfileActiveTab("followers")
                                 setDisplayFollowersPage(true)
                             }}
                             className="hover:underline cursor-pointer">{viewedUserDetails.followers.length} followers</p>

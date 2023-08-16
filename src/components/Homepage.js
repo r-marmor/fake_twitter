@@ -3,15 +3,12 @@ import CenterFeed from "./CenterFeed";
 import Menu from "./Menu";
 import ProfilePage from "./profile_pages/ProfilePage";
 import Sidebar from "./Sidebar";
-import { doc, getDoc } from "firebase/firestore";
-import { firestore } from "../firebase/firebase";
 
 export default function Homepage({
     user,
     userDetails,  
     showPostForm, 
-    setShowPostForm, 
-    tweets,
+    setShowPostForm,
     tweetLikes,
     setTweets,
     showProfilePage,
@@ -20,39 +17,22 @@ export default function Homepage({
     setShowPostsReplyPage,
     showPostsReplyPage,
     viewedUserDetails,
-    images,
-    setImages,
-    userMessage,
-    setUserMessage,
     toggleLike,
     toggleFollowBtn,
     showHomepage,
     showReplyForm,
     setShowReplyForm,
-    tweetData,
-    setTweetData
+    postsData,
+    mockedData,
+    fetchPostsData
     }) 
 {
     const [selectedTweetId, setSelectedTweetId] = useState(null);
     const [isLoading, setIsLoading] = useState(false); // à remonter dans app.js
 
-    async function fetchTweetData(tweetId) {
-        setIsLoading(true);
-
-        const tweetRef = doc(firestore, 'tweets', tweetId);
-        const tweetSnapshot = await getDoc(tweetRef);
-        if (tweetSnapshot.exists()) {
-            setTweetData(tweetSnapshot.data());
-            setSelectedTweetId(tweetId);
-
-        } else {
-            console.log("no such document");
-        }
-        setIsLoading(false);
-    }
 
       return (
-            <div id="main_page" className={`w-full min-h-screen ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
+            <div id="main_page" className={`w-full min-h-screen justify-center ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
                 <Menu 
                     setShowPostForm={setShowPostForm}
                     handleProfileClick={handleProfileClick}
@@ -60,7 +40,6 @@ export default function Homepage({
                 />
                 {showProfilePage ? (
                     <ProfilePage
-                        tweets={tweets}
                         tweetLikes={tweetLikes}
                         userDetails={userDetails}
                         setShowProfilePage={setShowProfilePage}
@@ -73,7 +52,6 @@ export default function Homepage({
                 ) : (
                     <CenterFeed
                         user={user}
-                        tweets={tweets}
                         setTweets={setTweets}
                         userDetails={userDetails}
                         handleProfileClick={handleProfileClick}
@@ -83,9 +61,9 @@ export default function Homepage({
                         showHomepage={showHomepage}
                         setSelectedTweetId={setSelectedTweetId}
                         selectedTweetId={selectedTweetId}
-                        tweetData={tweetData}
-                        setTweetData={setTweetData}
-                        fetchTweetData={fetchTweetData}
+                        postsData={postsData}
+                        mockedData={mockedData}
+                        fetchPostsData={fetchPostsData}
                         showPostForm={showPostForm}
                         setShowPostForm={setShowPostForm}
                         showReplyForm={showReplyForm}

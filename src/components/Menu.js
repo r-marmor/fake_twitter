@@ -11,12 +11,12 @@ export default function Menu({
     
     return (
         <>
-            <div className="hidden relative border-r md:flex flex-col md:px-3 justify-between items-center text-black w-1/12 lg:w-2/12 h-screen">
-                <ul className="flex flex-col gap-1 pt-4 items-center">
-                    <svg 
-                        onClick={() => showHomepage()}
-                        width="40px" height="40px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
-                        <path d="M32 2C15.432 2 2 15.432 2 32s13.432 30 30 30s30-13.432 30-30S48.568 2 32 2m14.035 44.508h-5.65V26.882c0-.564.008-1.355.02-2.372c.014-1.018.02-1.802.02-2.353l-5.498 24.351h-5.893l-5.459-24.351c0 .551.006 1.335.02 2.353c.014 1.017.02 1.808.02 2.372v19.626h-5.65V17.492h8.824l5.281 22.814l5.242-22.814h8.725v29.016z" fill="#000000"></path>
+            <div className=" bg-red-200 hidden relative md:flex flex-col md:px-3 justify-between items-center text-black w-1/12 lg:w-1/6 h-screen">
+                <ul className="flex flex-col gap-1 pt-4 items-start">
+                    <svg className="cursor-pointer"
+                         onClick={() => showHomepage()}
+                         width="40px" height="40px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+                         <path d="M32 2C15.432 2 2 15.432 2 32s13.432 30 30 30s30-13.432 30-30S48.568 2 32 2m14.035 44.508h-5.65V26.882c0-.564.008-1.355.02-2.372c.014-1.018.02-1.802.02-2.353l-5.498 24.351h-5.893l-5.459-24.351c0 .551.006 1.335.02 2.353c.014 1.017.02 1.808.02 2.372v19.626h-5.65V17.492h8.824l5.281 22.814l5.242-22.814h8.725v29.016z" fill="#000000"></path>
                     </svg>
                     <button className="flex justify-center items-center gap-2 mb-2 w-12 h-12 lg:w-full lg:justify-start lg:items-center lg:px-4 hover:bg-blue-100 hover:rounded-full">
                         <svg height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
@@ -39,7 +39,7 @@ export default function Menu({
                 {userDetails && 
                     <div className="hs-dropdown relative inline-flex mb-2">
                         <img className="hs-dropdown-toggle w-10 h-10 object-cover rounded-full " src={userDetails?.profileImgUrl} alt="profile menu"></img>
-                        <div className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-10 hidden min-w-[7rem] bg-slate-200 shadow-md rounded-lg p-2 mt-2" aria-labelledby="hs-dropdown-custom-trigger">
+                        <div className="hs-dropdown-menu z-50 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-10 hidden min-w-[7rem] bg-slate-200 shadow-md rounded-lg p-2 mt-2" aria-labelledby="hs-dropdown-custom-trigger">
                             <p onClick={() => handleProfileClick(userDetails.userId)}
                             className="flex items-center w-fit cursor-pointer gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-slate-100" href="#">
                             Profile page

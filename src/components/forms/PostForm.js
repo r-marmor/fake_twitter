@@ -33,7 +33,7 @@ export default function PostForm({
 
         for (const image of images) {
                 try {
-                    const storageRef = ref(storage, `tweets/${image.name}`);
+                    const storageRef = ref(storage, `posts/${image.name}`);
                     await uploadBytesResumable(storageRef, image);
                     const currentImageUrl = await getDownloadURL(storageRef);
                     imagesUrl.push(currentImageUrl);
@@ -42,15 +42,15 @@ export default function PostForm({
                 }
             }
 
-        const tweetsCollection = collection(firestore, 'tweets');
-        const tweetRef = doc(tweetsCollection);
-        const tweetId = tweetRef.id;
+        const postsCollection = collection(firestore, 'posts');
+        const postRef = doc(postsCollection);
+        const postId = postRef.id;
 
-        const tweet = {
+        const post = {
             profileImgUrl: profileImgUrl,
             userId: user.uid,
             likes: [],
-            tweetId,
+            postId,
             username,
             tagname,
             userMessage,
@@ -58,13 +58,13 @@ export default function PostForm({
             timestamp: new Date().getTime()
         };
 
-        await setDoc(tweetRef, tweet);
+        await setDoc(postRef, post);
 
-        // increments the user's tweet count
-        userData.totalTweets = parseInt(userData.totalTweets) + 1;
+        // increments the user's post count
+        userData.totalposts = parseInt(userData.totalposts) + 1;
 
         await updateDoc(userDoc, {
-            totalTweets: userData.totalTweets
+            totalposts: userData.totalposts
         });
 
         setUserMessage('');
@@ -85,7 +85,7 @@ export default function PostForm({
                 </button>
                 <form onSubmit={handleSubmit} className="w-full bg-slate-200 p-4 rounded-lg">
                     <div className="mb-4">
-                        <input
+                        <textarea
                         name="userMessage"
                         value={userMessage}
                         onChange={e => setUserMessage(e.target.value)}
