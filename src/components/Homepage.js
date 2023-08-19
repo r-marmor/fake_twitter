@@ -28,7 +28,6 @@ export default function Homepage({
     }) 
 {
     const [selectedTweetId, setSelectedTweetId] = useState(null);
-    const [isLoading, setIsLoading] = useState(false); // à remonter dans app.js
 
 
       return (

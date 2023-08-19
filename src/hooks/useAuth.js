@@ -9,6 +9,7 @@ export const useAuth = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async user => {
+          console.log("from useAuth", user)
           setUser(user);
           if (user) {
             const details = await getUserDetails(user.uid);

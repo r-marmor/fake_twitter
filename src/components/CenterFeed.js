@@ -51,29 +51,29 @@ export default function CenterFeed({
     }
     
 
-    const renderForYouSection = () => {
-        return mockedData.map(post => (
-            <div key={post.timestamp}
-                 onClick={() => handlePostClick(post.postId)}>
-                <TweetContainer 
-                    profileImgUrl={post.profileImgUrl}
-                    username={post.username}
-                    tagname={post.tagname}
-                    timestamp={post.timestamp}
-                    userMessage={post.userMessage}
-                    postLikes={post.likes}
-                    postId={post.postId}
-                    imagesUrl={post.imagesUrl}
-                    userId={post.userId}
-                    handleProfileClick={handleProfileClick}
-                    toggleLike={toggleLike}
-                    fetchPostsData={fetchPostsData}
-                    setShowPostForm={setShowPostForm}
-                    setShowReplyForm={setShowReplyForm}
-                />
-            </div>
-        ));
-    };
+    // const renderForYouSection = () => {
+    //     return mockedData.map(post => (
+    //         <div key={post.timestamp}
+    //              onClick={() => handlePostClick(post.postId)}>
+    //             <TweetContainer 
+    //                 profileImgUrl={post.profileImgUrl}
+    //                 username={post.username}
+    //                 tagname={post.tagname}
+    //                 timestamp={post.timestamp}
+    //                 userMessage={post.userMessage}
+    //                 postLikes={post.likes}
+    //                 postId={post.postId}
+    //                 imagesUrl={post.imagesUrl}
+    //                 userId={post.userId}
+    //                 handleProfileClick={handleProfileClick}
+    //                 toggleLike={toggleLike}
+    //                 fetchPostsData={fetchPostsData}
+    //                 setShowPostForm={setShowPostForm}
+    //                 setShowReplyForm={setShowReplyForm}
+    //             />
+    //         </div>
+    //     ));
+    // };
 
     const renderUserPosts = () => {
         return postsData
@@ -158,7 +158,8 @@ export default function CenterFeed({
             {/* For you section */}
             {mockedData &&
                 <div id="for-you-section" className={`mb-10 bg-color-default ${showForYouSection ? 'block' : 'hidden'}`}>
-                    {renderForYouSection()}
+                    {/* {renderForYouSection()} */}
+                    <p>Mocked section</p>
                 </div> 
             }
 
