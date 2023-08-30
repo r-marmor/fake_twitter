@@ -27,6 +27,11 @@ function App() {
   // Application states
   const [userMessage, setUserMessage] = useState('');
   const [images, setImages] = useState([]);
+<<<<<<< HEAD
+=======
+  const [tweetData, setTweetData] = useState([]);
+  const [selectedTweetData, setSelectedTweetData] = useState([]);
+>>>>>>> recovery-branch
   const [viewedUserDetails, setViewedUserDetails] = useState(null);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
 
@@ -70,9 +75,16 @@ function App() {
       toggleLike={toggleLike}
       toggleFollowBtn={toggleFollowBtn}
       showHomepage={showHomepage}
+<<<<<<< HEAD
       postsData={postsData}
       mockedData={mockedData}
       fetchPostsData={fetchPostsData}
+=======
+      tweetData={tweetData}
+      setTweetData={setTweetData}
+      selectedTweetData={selectedTweetData}
+      setSelectedTweetData={setSelectedTweetData}
+>>>>>>> recovery-branch
     />
   );
 
@@ -91,7 +103,12 @@ function App() {
                     setShowPostForm={(state) => setUiState(prev => ({...prev, showPostForm: state}))}
                     userMessage={userMessage}
                     setUserMessage={setUserMessage}
+<<<<<<< HEAD
                     postsData={postsData}                    
+=======
+                    tweetData={tweetData}
+                    selectedTweetData={selectedTweetData}               
+>>>>>>> recovery-branch
           >
             {homepageComponent}
           </Overlay>

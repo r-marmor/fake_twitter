@@ -1,14 +1,44 @@
 import { useEffect, useRef, useState } from "react";
 import TweetContainer from "../tweets/TweetContainer";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { firestore } from "../../firebase/firebase";
+import { useAuth } from "../../hooks/useAuth";
 
 export function ProfileMenu({ 
-    tweets, 
+    tweetData, 
     viewedUserDetails,
     handleProfileClick,
     toggleLike
 }) {
+
+    const [, userDetails] = useAuth();
+    const [userReplies, setUserReplies] = useState([])
     const tweetButtonRef = useRef(null);
     const [displayedContent, setDisplayedContent] = useState("tweets");
+
+    useEffect(() => {
+        if (!userDetails || !userDetails.userId) {
+            return;
+        }
+
+        const fetchUserReplies = () => {
+            const repliesQuery = query(
+                collection(firestore, 'replies'),
+                where('userId', '==', viewedUserDetails.userId),
+                orderBy('timestamp', 'desc')
+            );
+            const unsubscribe = onSnapshot(repliesQuery, (querySnapshot) => {
+                const fetchedReplies = querySnapshot.docs.map(doc => doc.data());
+                setUserReplies(fetchedReplies);
+            });
+
+            return () => unsubscribe();
+        }
+        fetchUserReplies();
+
+    }, [userDetails]);
+
+
 
     useEffect(() => {
         if (tweetButtonRef.current) {
@@ -18,16 +48,16 @@ export function ProfileMenu({
 
     function filteredTweets() {
         if (displayedContent === "tweets") {
-            return tweets.filter(tweet => tweet.userId === viewedUserDetails.userId);
+            return tweetData.filter(tweet => tweet.userId === viewedUserDetails.userId);
         } else if (displayedContent === "likes") {
-            return tweets.filter(tweet => viewedUserDetails.likedTweetsId.includes(tweet.tweetId));
+            return tweetData.filter(tweet => viewedUserDetails.likedTweetsId.includes(tweet.tweetId));
         } else if (displayedContent === "medias") {
-            return tweets.filter(tweet => 
+            return tweetData.filter(tweet => 
                 tweet.userId === viewedUserDetails.userId &&
                 tweet.imagesUrl.length > 0
                 );
         } else if (displayedContent === "replies") {
-            
+            return userReplies
         }
         return [];
     }
@@ -44,12 +74,12 @@ export function ProfileMenu({
                 {filteredTweets().map((tweet) => (
                     <TweetContainer
                         key={tweet.timestamp}
-                        profileImg={tweet.profileImgUrl}
+                        profileImgUrl={tweet.profileImgUrl}
                         username={tweet.username}
-                        tag={tweet.tagname}
+                        tagname={tweet.tagname}
                         timestamp={tweet.timestamp}
-                        text={tweet.userMessage}
-                        tweets={tweets}
+                        userMessage={tweet.userMessage || tweet.userReplyMessage}
+                        tweetData={tweetData}
                         tweetLikes={tweet.likes}
                         tweetId={tweet.tweetId}
                         imagesUrl={tweet.imagesUrl}

@@ -9,11 +9,12 @@ import { useAuth } from "../../hooks/useAuth";
 
 export function TweetRepliesPage({
     selectedTweetId,
-    tweets, 
     handleProfileClick, 
     toggleLike,
     tweetData,
-    fetchTweetData
+    fetchTweetData,
+    selectedTweetData,
+    setShowReplyForm
 }) {
     
     const [replies, setReplies] = useState([]);
@@ -24,7 +25,7 @@ export function TweetRepliesPage({
         if (selectedTweetId) {
             fetchTweetData(selectedTweetId)
         }
-    }, [selectedTweetId, fetchTweetData]);
+    }, [selectedTweetId]);
 
     useEffect(() => {
         const fetchReplies = () => {
@@ -47,36 +48,70 @@ export function TweetRepliesPage({
 
     return (
         <>
-            {tweetData && (
+            {selectedTweetData && (
+            //     <TweetContainer 
+            //     profileImgUrl={tweet.profileImgUrl}
+            //     username={tweet.username}
+            //     tagname={tweet.tagname}
+            //     timestamp={tweet.timestamp}
+            //     userMessage={tweet.userMessage}
+            //     tweetLikes={tweet.likes}
+            //     tweetId={tweet.tweetId}
+            //     imagesUrl={tweet.imagesUrl}
+            //     userId={tweet.userId}
+            //     handleProfileClick={handleProfileClick}
+            //     toggleLike={toggleLike}
+            //     tweetData={tweetData}
+            //     fetchTweetData={fetchTweetData}
+            //     setShowPostForm={setShowPostForm}
+            //     setShowReplyForm={setShowReplyForm}
+            // />
                 <TweetContainer 
-                    profileImg={tweetData.profileImgUrl}
-                    username={tweetData.username}
-                    tag={tweetData.tagname}
-                    timestamp={tweetData.timestamp}
-                    text={tweetData.userMessage}
-                    tweetLikes={tweetData.likes}
-                    tweetId={tweetData.tweetId}
-                    userId={tweetData.userId}
-                    imagesUrl={tweetData.imagesUrl}
+                    profileImgUrl={selectedTweetData.profileImgUrl}
+                    username={selectedTweetData.username}
+                    tagname={selectedTweetData.tagname}
+                    timestamp={selectedTweetData.timestamp}
+                    tweetLikes={selectedTweetData.likes}
+                    userMessage={selectedTweetData.userMessage}
+                    tweetId={selectedTweetData.tweetId}
+                    userId={selectedTweetData.userId}
+                    imagesUrl={selectedTweetData.imagesUrl}
                     handleProfileClick={handleProfileClick}
                     toggleLike={toggleLike}
-                    tweets={tweets}
                     tweetData={tweetData}
                     isTextareaFocused={isTextareaFocused}
                     setIsTextareaFocused={setIsTextareaFocused}
                     fetchTweetData={fetchTweetData}
+                    setShowReplyForm={setShowReplyForm}
                 />
             )}
+<<<<<<< HEAD
+=======
+            {tweetData && (
+                <div className="flex items-start bg-slate-200 gap-5 px-4 py-4 border-b border-gray-200">
+                    <TweetReplyForm 
+                        mode="reply"
+                        user={user}
+                        userDetails={userDetails}
+                        isTextareaFocused={isTextareaFocused}
+                        tweetData={tweetData}
+                        parentTweetId={tweetData.tweetId}
+                        selectedTweetData={selectedTweetData}
+                        setIsTextareaFocused={setIsTextareaFocused}
+                    />
+                </div>
+            )}
+>>>>>>> recovery-branch
                 <div>
                     {replies.map(reply => (
                         <TweetContainer
                             key={reply.timestamp} 
-                            tweets={tweets}
-                            profileImg={reply.profileImgUrl}
+                            tweetData={tweetData}
+                            profileImgUrl={reply.profileImgUrl}
                             username={reply.username}
-                            tag={reply.tagname}
+                            tagname={reply.tagname}
                             timestamp={reply.timestamp}
-                            text={reply.userReplyMessage}
+                            userMessage={reply.userReplyMessage}
                             tweetLikes={reply.likes}
                             tweetId={reply.tweetId}
                             imagesUrl={reply.imagesUrl}
@@ -84,6 +119,7 @@ export function TweetRepliesPage({
                             handleProfileClick={handleProfileClick}
                             toggleLike={toggleLike}
                             fetchTweetData={fetchTweetData}
+                            setShowReplyForm={setShowReplyForm}
                         />
                     ))}
                 </div>

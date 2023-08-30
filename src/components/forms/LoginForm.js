@@ -3,9 +3,10 @@ import { useState } from "react";
 import { auth } from "../../firebase/firebase";
 
 export default function LoginForm( { setShowLoginForm } ) {
-       const [credentials, setCredentials] = useState({
-        username: '',
-        password: ''
+        const [loginError, setLoginError] = useState("")
+        const [credentials, setCredentials] = useState({
+            username: '',
+            password: ''
     });
 
     const handleLoginChange = (e) => {
@@ -24,7 +25,7 @@ export default function LoginForm( { setShowLoginForm } ) {
         await signInWithEmailAndPassword(auth, email, password);
         // Logged in successfully
         } catch (error) {
-        console.error("Error logging in:", error.message);
+            setLoginError("Wrong login or email");
         }
     }
 
@@ -63,6 +64,7 @@ export default function LoginForm( { setShowLoginForm } ) {
                         Se connecter
                         </button>
                     </div>
+                    <div className="text-center text-red-500 font-bold mt-5">{loginError}</div>
                 </form>
         </div>
     )

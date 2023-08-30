@@ -8,9 +8,12 @@ export default function Homepage({
     user,
     userDetails,  
     showPostForm, 
+<<<<<<< HEAD
     setShowPostForm,
+=======
+    setShowPostForm, 
+>>>>>>> recovery-branch
     tweetLikes,
-    setTweets,
     showProfilePage,
     setShowProfilePage,
     handleProfileClick,
@@ -22,6 +25,7 @@ export default function Homepage({
     showHomepage,
     showReplyForm,
     setShowReplyForm,
+<<<<<<< HEAD
     postsData,
     mockedData,
     fetchPostsData
@@ -32,6 +36,35 @@ export default function Homepage({
 
       return (
             <div id="main_page" className={`w-full min-h-screen justify-center ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
+=======
+    tweetData,
+    setTweetData,
+    selectedTweetData,
+    setSelectedTweetData
+    }) 
+{
+    const [selectedTweetId, setSelectedTweetId] = useState(null);
+    
+    const [isLoading, setIsLoading] = useState(false); // à remonter dans app.js
+
+    async function fetchTweetData(tweetId) {
+        setIsLoading(true);
+
+        const tweetRef = doc(firestore, 'tweets', tweetId);
+        const tweetSnapshot = await getDoc(tweetRef);
+        if (tweetSnapshot.exists()) {
+            setSelectedTweetData(tweetSnapshot.data());
+            setSelectedTweetId(tweetId);
+
+        } else {
+            console.log("no such document");
+        }
+        setIsLoading(false);
+    }
+
+      return (
+            <div id="main_page" className={`flex justify-center w-full min-h-screen ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
+>>>>>>> recovery-branch
                 <Menu 
                     setShowPostForm={setShowPostForm}
                     handleProfileClick={handleProfileClick}
@@ -39,6 +72,10 @@ export default function Homepage({
                 />
                 {showProfilePage ? (
                     <ProfilePage
+<<<<<<< HEAD
+=======
+                        tweetData={tweetData}
+>>>>>>> recovery-branch
                         tweetLikes={tweetLikes}
                         userDetails={userDetails}
                         setShowProfilePage={setShowProfilePage}
@@ -51,7 +88,10 @@ export default function Homepage({
                 ) : (
                     <CenterFeed
                         user={user}
+<<<<<<< HEAD
                         setTweets={setTweets}
+=======
+>>>>>>> recovery-branch
                         userDetails={userDetails}
                         handleProfileClick={handleProfileClick}
                         toggleLike={toggleLike}
@@ -67,6 +107,7 @@ export default function Homepage({
                         setShowPostForm={setShowPostForm}
                         showReplyForm={showReplyForm}
                         setShowReplyForm={setShowReplyForm}
+                        selectedTweetData={selectedTweetData}
                     />
                 )}
                 <Sidebar />

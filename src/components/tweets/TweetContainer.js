@@ -6,9 +6,15 @@ export default function TweetContainer({
     username, 
     tagname, 
     timestamp, 
+<<<<<<< HEAD
     text,
     postLikes,
     postId,
+=======
+    userMessage,
+    tweetLikes,
+    tweetId,
+>>>>>>> recovery-branch
     userId,
     imagesUrl,
     handleProfileClick,
@@ -47,7 +53,7 @@ export default function TweetContainer({
                                 <img key={index} src={url} alt="uploaded-content" className="rounded-lg max-h-60 object-cover mt-6"></img>
                             ))}
                             </div>
-                            <p>{text}</p>
+                            <p>{userMessage}</p>
                         </div>
                         <TweetMenu 
                             postLikes={postLikes} 

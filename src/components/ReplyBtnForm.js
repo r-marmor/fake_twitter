@@ -1,18 +1,23 @@
+import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth"
 import { useReply } from "../hooks/useReply";
 
-export function ReplyBtnForm( {setShowReplyForm, tweetData} ) {
+export function ReplyBtnForm( {setShowReplyForm, tweetData, selectedTweetData} ) {
     const [user, userDetails] = useAuth();
+
+    // useEffect(() => {
+    //     console.log("from replybtnform", selectedTweetData)
+    // }, [selectedTweetData])
 
     const { 
         userReplyMessage,                   
         setUserReplyMessage,
         handleReplySubmit
-    } = useReply(user, userDetails, tweetData, () => setShowReplyForm(false));
+    } = useReply(user, userDetails, selectedTweetData, () => setShowReplyForm(false));
     
     return (
         <>
-            {tweetData && (
+            {selectedTweetData && (
                 <div id="replyContainer" className={`flex flex-col text-black w-screen h-screen justify-start px-5 pt-10 z-20 absolute md:border top-0 md:inset-x-1/3 md:justify-center md:h-auto md:mt-48 md:rounded-lg bg-slate-200 md:w-1/2 xl:w-5/12 2xl:w-4/12 md:px-4`}>
                     {/* Close button */}
                     <button onClick={() => setShowReplyForm(false)} className="absolute top-2 left-3 hover:bg-slate-100 rounded-full"     
@@ -23,13 +28,13 @@ export function ReplyBtnForm( {setShowReplyForm, tweetData} ) {
                     </button>
                     <div id="milieu" className="flex gap-10">
                         <div className="flex flex-col items-center">
-                            <img className="w-14 h-14 object-cover rounded-full" src={tweetData.profileImgUrl} alt="reply profile"></img>
+                            <img className="w-14 h-14 object-cover rounded-full" src={selectedTweetData.profileImgUrl} alt="reply profile"></img>
                             <div className="h-full w-px bg-gray-500 mt-2"></div>
                         </div>
                         <div className="w-full">
-                            <p className="font-bold">{tweetData.username} <span className="text-gray-600 font-normal">@{tweetData.tagname}</span></p>
-                            <p className="mb-4">{tweetData.userMessage}</p>
-                            <p className="text-gray-600 text-sm">Replying to <span className="text-blue-500">@{tweetData.tagname}</span></p>
+                            <p className="font-bold">{selectedTweetData.username} <span className="text-gray-600 font-normal">@{selectedTweetData.tagname}</span></p>
+                            <p className="mb-4">{selectedTweetData.userMessage}</p>
+                            <p className="text-gray-600 text-sm">Replying to <span className="text-blue-500">@{selectedTweetData.tagname}</span></p>
                         </div>
                     </div>
                     <div className="flex">

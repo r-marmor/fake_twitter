@@ -1,4 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+<<<<<<< HEAD
+=======
+
+import { firestore } from "../firebase/firebase";
+import { collection, doc, getDoc, onSnapshot, orderBy, query } from "firebase/firestore";
+>>>>>>> recovery-branch
 
 import TweetContainer from "./tweets/TweetContainer";
 import {TweetRepliesPage}  from "./tweets/TweetRepliesPage";
@@ -20,17 +26,28 @@ export default function CenterFeed({
         showPostForm,
         setShowPostForm,
         showReplyForm,
-        setShowReplyForm
+        setShowReplyForm,
+        selectedTweetData,
+        replies
     }) 
 {
     const centerFeedButtonRef = useRef(null);
 
     const [, userDetails] = useAuth();
+<<<<<<< HEAD
    
     const [showForYouSection, setShowForYouSection] = useState(false);
     const [showFollowingSection, setShowFollowingSection] = useState(false)
 
 
+=======
+    
+    const [followingIds, setFollowingIds] = useState([])
+    const [showForYouSection, setShowForYouSection] = useState(false);
+    const [showFollowingSection, setShowFollowingSection] = useState(false)
+
+    
+>>>>>>> recovery-branch
     useEffect(() => {
         if (centerFeedButtonRef.current) {
             centerFeedButtonRef.current.focus();
@@ -38,6 +55,7 @@ export default function CenterFeed({
         }
     }, []);
 
+<<<<<<< HEAD
 
     useEffect(() => {
         fetchPostsData('posts');
@@ -47,6 +65,99 @@ export default function CenterFeed({
 
     const handlePostClick = (postId) => {
         setSelectedpostId(postId);
+=======
+        const unsubscribe = onSnapshot(tweetsQuerry, (querySnapshot) => {
+            const tweetsArray = [];
+            querySnapshot.forEach(doc => {
+                tweetsArray.push(doc.data());
+            })
+            setTweetData(tweetsArray);
+        });
+
+        return () => unsubscribe();
+    }, [setTweetData]);
+
+
+    useEffect(() => {
+        if (!userDetails || !userDetails.userId) {
+            return;
+          }
+
+        const fetchFollowing = async () => {
+          const userDoc = doc(collection(firestore, 'users'), userDetails.userId);
+          const userData = await getDoc(userDoc);
+          if (userData.exists) {
+            setFollowingIds(userData.data().following);
+          }
+        };
+        fetchFollowing();
+    }, [userDetails]);
+
+
+    useEffect(() => {
+        if (centerFeedButtonRef.current) {
+            centerFeedButtonRef.current.focus();
+            centerFeedButtonRef.current.click();
+        }
+    }, []);
+
+    const renderFollowingSection = () => {
+        return tweetData
+            .filter(tweet => followingIds.includes(tweet.userId))
+            .map(tweet => (
+                <div key={tweet.timestamp}
+                     onClick={() => handleTweetClick(tweet.tweetId)}>
+                    <TweetContainer 
+                        profileImgUrl={tweet.profileImgUrl}
+                        username={tweet.username}
+                        tagname={tweet.tagname}
+                        timestamp={tweet.timestamp}
+                        userMessage={tweet.userMessage}
+                        tweetLikes={tweet.likes}
+                        tweetId={tweet.tweetId}
+                        imagesUrl={tweet.imagesUrl}
+                        userId={tweet.userId}
+                        handleProfileClick={handleProfileClick}
+                        toggleLike={toggleLike}
+                        tweetData={tweetData}
+                        fetchTweetData={fetchTweetData}
+                        setShowPostForm={setShowPostForm}
+                        setShowReplyForm={setShowReplyForm}
+                    />
+                </div>
+            ));
+    }
+
+    const renderForyouSection = () => {
+        return tweetData
+            .slice(-5)
+            .map(tweet => (
+                <div key={tweet.timestamp}
+                     onClick={() => handleTweetClick(tweet.tweetId)}>
+                    <TweetContainer 
+                        profileImgUrl={tweet.profileImgUrl}
+                        username={tweet.username}
+                        tagname={tweet.tagname}
+                        timestamp={tweet.timestamp}
+                        userMessage={tweet.userMessage}
+                        tweetLikes={tweet.likes}
+                        tweetId={tweet.tweetId}
+                        imagesUrl={tweet.imagesUrl}
+                        userId={tweet.userId}
+                        handleProfileClick={handleProfileClick}
+                        toggleLike={toggleLike}
+                        tweetData={tweetData}
+                        fetchTweetData={fetchTweetData}
+                        setShowPostForm={setShowPostForm}
+                        setShowReplyForm={setShowReplyForm}
+                    />
+                </div>
+            ));
+    }
+
+    const handleTweetClick = (tweetId) => {
+        setSelectedTweetId(tweetId);
+>>>>>>> recovery-branch
         setShowPostsReplyPage(true);
     }
     
@@ -156,6 +267,7 @@ export default function CenterFeed({
             </div>
 
             {/* For you section */}
+<<<<<<< HEAD
             {mockedData &&
                 <div id="for-you-section" className={`mb-10 bg-color-default ${showForYouSection ? 'block' : 'hidden'}`}>
                     {/* {renderForYouSection()} */}
@@ -175,11 +287,38 @@ export default function CenterFeed({
                         toggleLike={toggleLike}
                         postsData={postsData}
                         fetchPostsData={fetchPostsData}
+=======
+            {tweetData && !showPostsReplyPage &&
+                 <div id="for-you-section" className={`mb-10 bg-color-default ${showForYouSection ? 'block' : 'hidden'}`}>
+                    {renderForyouSection()}
+                </div> 
+            }
+               
+            
+
+            {/* Following section */}
+            {tweetData && !showPostsReplyPage &&
+                <div id="following-section" className={`mb-10 bg-color-default shadow-xl ${showFollowingSection ? 'block' : 'hidden'}`}>
+                    {renderFollowingSection()}
+                </div>
+            }
+            
+            { showPostsReplyPage && (
+                    <TweetRepliesPage 
+                        selectedTweetId={selectedTweetId}
+                        handleProfileClick={handleProfileClick}
+                        toggleLike={toggleLike}
+                        tweetData={tweetData}
+                        fetchTweetData={fetchTweetData}
+                        selectedTweetData={selectedTweetData}
+                        setShowReplyForm={setShowReplyForm}
+                        replies={replies}
+>>>>>>> recovery-branch
                     />
                 ) 
             }
             {/* Button post small screen */}
-            <button onClick={() => setShowPostForm(true)} className="absolute bottom-10 right-10 md:hidden pl-2">
+            <button onClick={() => setShowPostForm(true)} className="absolute top-5 right-5 md:hidden pl-2">
                 <svg viewBox="-8 0 40 24" aria-hidden="true" className="bg-blue-400 text-white w-12 h-12 rounded-full"><g><path d="M23 3c-6.62-.1-10.38 2.421-13.05 6.03C7.29 12.61 6 17.331 6 22h2c0-1.007.07-2.012.19-3H12c4.1 0 7.48-3.082 7.94-7.054C22.79 10.147 23.17 6.359 23 3zm-7 8h-1.5v2H16c.63-.016 1.2-.08 1.72-.188C16.95 15.24 14.68 17 12 17H8.55c.57-2.512 1.57-4.851 3-6.78 2.16-2.912 5.29-4.911 9.45-5.187C20.95 8.079 19.9 11 16 11zM4 9V6H1V4h3V1h2v3h3v2H6v3H4z"></path></g></svg>
             </button>
         </div>
