@@ -4,7 +4,6 @@ export default function TweetMenu({
     tweetLikes, 
     toggleLike, 
     tweetId, 
-    tweets,
     tweetData,
     isTextareaFocused,
     setIsTextareaFocused,
@@ -34,7 +33,7 @@ export default function TweetMenu({
                 </button>
                 <div className="flex items-center gap-2">
                     <button id="likesBtn"
-                            onClick={(event) => toggleLike(event, tweetId, userDetails.userId, tweets)}
+                            onClick={(event) => toggleLike(event, tweetId, userDetails.userId, tweetData)}
                             className="flex justify-center items-center w-10 h-10 hover:bg-red-100 hover:rounded-full">
                         <svg className="" version="1.1" xmlns="http://www.w3.org/2000/svg" 
                             width="25px" height="25px" viewBox="0 0 32 32">
@@ -45,7 +44,7 @@ export default function TweetMenu({
                                 c3.033,0,5.5,2.467,5.5,5.5C27,18.938,18.622,23.521,16,24.797z"/>
                         </svg>
                     </button>
-                    <p>{tweetLikes.length}</p>
+                    <p>{tweetLikes?.length}</p>
                 </div>
                 <svg fill="#000000" width="25px" height="25px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <path id="link" d="M31.413,26.463c3.991,1.537 7.262,5.189 7.43,9.714c0.239,6.468 -6.379,11.427 -11.701,16.688c-2.086,2.009 -4.942,3.153 -7.842,3.135c-8.317,-0.155 -14.62,-11.625 -7.763,-18.74c3.923,-3.972 7.61,-8.964 11.931,-10.816c0.337,-0.145 0.681,-0.268 1.028,-0.371c0.016,1.283 0.124,2.918 0.495,4.281c-0.7,0.283 -1.356,0.69 -1.933,1.232c-4.472,4.311 -10.91,8.453 -10.504,13.891c0.257,3.451 3.395,6.412 6.969,6.39c1.757,-0.033 3.469,-0.744 4.732,-1.96c5.087,-5.029 12.486,-10.214 9.87,-16.115c-0.515,-1.162 -1.386,-2.1 -2.445,-2.767c-0.279,-1.209 -0.513,-2.876 -0.267,-4.562Zm1.174,11.045c-3.991,-1.537 -7.262,-5.189 -7.43,-9.715c-0.239,-6.467 6.379,-11.426 11.701,-16.688c2.086,-2.008 4.942,-3.152 7.842,-3.134c8.317,0.154 14.62,11.624 7.763,18.739c-3.923,3.972 -7.61,8.964 -11.931,10.816c-0.337,0.145 -0.681,0.268 -1.028,0.371c-0.016,-1.283 -0.124,-2.918 -0.495,-4.28c0.7,-0.283 1.356,-0.691 1.933,-1.233c4.472,-4.311 10.91,-8.453 10.504,-13.891c-0.257,-3.45 -3.395,-6.412 -6.969,-6.389c-1.757,0.032 -3.469,0.744 -4.732,1.96c-5.087,5.028 -12.486,10.213 -9.87,16.114c0.515,1.163 1.386,2.1 2.445,2.768c0.279,1.208 0.513,2.876 0.267,4.562Z"/>

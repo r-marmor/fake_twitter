@@ -13,7 +13,7 @@ export const getUserDetails = async (userId) => {
 export const toggleLike = async (event, tweetId, userId, tweets) => {
     event.stopPropagation();
   
-  const tweetDocRef = doc(firestore, 'tweets', tweetId);
+    const tweetDocRef = doc(firestore, 'tweets', tweetId);
     const userDocRef = doc(firestore, 'users', userId);
 
     const tweetIndex = tweets.findIndex(tweet => tweet.tweetId === tweetId);

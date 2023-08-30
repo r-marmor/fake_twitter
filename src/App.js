@@ -25,8 +25,8 @@ function App() {
   // Application states
   const [userMessage, setUserMessage] = useState('');
   const [images, setImages] = useState([]);
-  const [tweets, setTweets] = useState([]);
-  const [tweetData, setTweetData] = useState(null);
+  const [tweetData, setTweetData] = useState([]);
+  const [selectedTweetData, setSelectedTweetData] = useState([]);
   const [viewedUserDetails, setViewedUserDetails] = useState(null);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
 
@@ -53,8 +53,6 @@ function App() {
     <Homepage
       user={user}
       userDetails={userDetails}
-      tweets={tweets}
-      setTweets={setTweets}
       showProfilePage={uiState.showProfilePage}
       setShowProfilePage={(state) => setUiState(prev => ({...prev, showProfilePage: state}))}
       handleProfileClick={handleProfileClick}
@@ -74,6 +72,8 @@ function App() {
       showHomepage={showHomepage}
       tweetData={tweetData}
       setTweetData={setTweetData}
+      selectedTweetData={selectedTweetData}
+      setSelectedTweetData={setSelectedTweetData}
     />
   );
 
@@ -92,7 +92,8 @@ function App() {
                     setShowPostForm={(state) => setUiState(prev => ({...prev, showPostForm: state}))}
                     userMessage={userMessage}
                     setUserMessage={setUserMessage}
-                    tweetData={tweetData}                    
+                    tweetData={tweetData}
+                    selectedTweetData={selectedTweetData}               
           >
             {homepageComponent}
           </Overlay>

@@ -6,14 +6,14 @@ export function TweetReplyForm({
     userDetails, 
     isTextareaFocused, 
     setIsTextareaFocused, 
-    tweetData,
+    selectedTweetData
 }) {
     
     const { 
         userReplyMessage,
         setUserReplyMessage,
         handleReplySubmit
-    } = useReply(user, userDetails, tweetData)
+    } = useReply(user, userDetails, selectedTweetData)
 
 
     return (
@@ -24,7 +24,7 @@ export function TweetReplyForm({
             <div className="flex flex-col gap-5 w-full">
                 <h4 className={`text-sm ${isTextareaFocused ? 'block' : 'hidden'}`}>
                     {mode === "reply" ? 'Replying to ' : ''}
-                    <span className="text-blue-500 pt-2">@{tweetData?.tagname}</span>
+                    <span className="text-blue-500 pt-2">@{selectedTweetData?.tagname}</span>
                 </h4>
                 <form onSubmit={handleReplySubmit}>
                     <textarea 

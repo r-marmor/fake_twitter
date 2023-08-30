@@ -11,9 +11,7 @@ export default function Homepage({
     userDetails,  
     showPostForm, 
     setShowPostForm, 
-    tweets,
     tweetLikes,
-    setTweets,
     showProfilePage,
     setShowProfilePage,
     handleProfileClick,
@@ -30,10 +28,13 @@ export default function Homepage({
     showReplyForm,
     setShowReplyForm,
     tweetData,
-    setTweetData
+    setTweetData,
+    selectedTweetData,
+    setSelectedTweetData
     }) 
 {
     const [selectedTweetId, setSelectedTweetId] = useState(null);
+    
     const [isLoading, setIsLoading] = useState(false); // à remonter dans app.js
 
     async function fetchTweetData(tweetId) {
@@ -42,7 +43,7 @@ export default function Homepage({
         const tweetRef = doc(firestore, 'tweets', tweetId);
         const tweetSnapshot = await getDoc(tweetRef);
         if (tweetSnapshot.exists()) {
-            setTweetData(tweetSnapshot.data());
+            setSelectedTweetData(tweetSnapshot.data());
             setSelectedTweetId(tweetId);
 
         } else {
@@ -52,7 +53,7 @@ export default function Homepage({
     }
 
       return (
-            <div id="main_page" className={`w-full min-h-screen ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
+            <div id="main_page" className={`flex justify-center w-full min-h-screen ${showReplyForm ? 'hidden md:flex' : 'flex'}`}>
                 <Menu 
                     setShowPostForm={setShowPostForm}
                     handleProfileClick={handleProfileClick}
@@ -60,7 +61,7 @@ export default function Homepage({
                 />
                 {showProfilePage ? (
                     <ProfilePage
-                        tweets={tweets}
+                        tweetData={tweetData}
                         tweetLikes={tweetLikes}
                         userDetails={userDetails}
                         setShowProfilePage={setShowProfilePage}
@@ -73,8 +74,6 @@ export default function Homepage({
                 ) : (
                     <CenterFeed
                         user={user}
-                        tweets={tweets}
-                        setTweets={setTweets}
                         userDetails={userDetails}
                         handleProfileClick={handleProfileClick}
                         toggleLike={toggleLike}
@@ -90,6 +89,7 @@ export default function Homepage({
                         setShowPostForm={setShowPostForm}
                         showReplyForm={showReplyForm}
                         setShowReplyForm={setShowReplyForm}
+                        selectedTweetData={selectedTweetData}
                     />
                 )}
                 <Sidebar />

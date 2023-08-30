@@ -8,7 +8,7 @@ export default function ProfilePage({
     setShowProfilePage, 
     userDetails,
     viewedUserDetails,
-    tweets,
+    tweetData,
     handleProfileClick,
     toggleLike,
     toggleFollowBtn,
@@ -44,7 +44,8 @@ export default function ProfilePage({
                         viewedUserDetails={viewedUserDetails} 
                         handleProfileClick={handleProfileClick}
                         toggleLike={toggleLike}
-                        tweets={tweets} />
+                        tweetData={tweetData} 
+                    />
                 </>
              )}
         </div>

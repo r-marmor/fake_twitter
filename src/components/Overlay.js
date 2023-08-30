@@ -12,14 +12,15 @@ export function Overlay({
     setUserMessage,
     setImages,
     setShowReplyForm,
-    tweetData
+    tweetData,
+    selectedTweetData
  }) {
     if (!show) return null;
 
     return (
             <>
                 <div id="overlay" className={`absolute z-10 bg-black w-screen h-screen top-0 left-0 opacity-70 ${show ? 'md:block' : 'hidden'} `}></div>
-                {showReplyForm && <ReplyBtnForm setShowReplyForm={setShowReplyForm} tweetData={tweetData} />}
+                {showReplyForm && <ReplyBtnForm setShowReplyForm={setShowReplyForm} tweetData={tweetData} selectedTweetData={selectedTweetData} />}
                 {showPostForm &&
                     <PostForm 
                         setShowPostForm={setShowPostForm}
