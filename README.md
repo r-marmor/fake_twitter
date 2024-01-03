@@ -1,6 +1,6 @@
 # Fake Twitter App
 
-A simple Twitter replica built for practice purposes.
+This project is a simplified replica of the known app's core features, designed for educational purposes. It is built using React for the frontend and Firebase for the backend.
 
 ## Demo
 
