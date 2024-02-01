@@ -8,14 +8,6 @@ import {
     signInWithEmailAndPassword
 } from "firebase/auth"
 
-const admin = require("firebase-admin");
-
-const serviceAccount = require("../../fake-twitter-947be-firebase-adminsdk-xjt7f-e5dd74bd5f.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
 export const app = initializeApp(
     {
         apiKey: "AIzaSyDGo1-rnRIQP90m5-I5miQalwukBoCtt2c",
