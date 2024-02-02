@@ -4,7 +4,7 @@ This project is a simplified replica of the known app's core features, designed 
 
 ## Demo
 
-Check out the live demo here: [Fake Twitter Demo](https://fake-twitter-947be.web.app/)
+Check out the live demo here: [Fake Twitter Demo](https://fake-twitter-947be.web.app/) ==> Firebase implementation not working anymore, fix in progress...
 
 ## Features
 
